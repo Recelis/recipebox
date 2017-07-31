@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import InventoryTable from './InventoryTable'
+import IngredientTable from './IngredientTable'
+
 
 class RecipeBox extends Component {
     constructor (){
@@ -11,7 +14,13 @@ class RecipeBox extends Component {
     render(){
         return(
             <div>
-                <p>Created By Jacky Lui &#169; 2017</p>
+                <h1>The RecipeBox 9000+</h1>
+                <InventoryTable
+                
+                />
+                <IngredientTable
+                
+                />
             </div>
         )
     }

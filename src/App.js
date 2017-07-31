@@ -7,6 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         <RecipeBox/>
+        <p>Created By Jacky Lui &#169; 2017</p>
       </div>
     );
   }
