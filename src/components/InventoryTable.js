@@ -6,7 +6,8 @@ class InventoryTable extends Component {
         super();
         this.state={
             opened:false,
-            openedValue: '+'
+            openedValue: '+',
+            editing:false,
         }
     }
 
@@ -19,6 +20,12 @@ class InventoryTable extends Component {
             opened:true,
             openedValue:'-'
         });
+    }
+
+    clickedEdit(){
+        this.setState({
+            editing:this.state.editing? false:true
+        })
     }
     
     render(){
@@ -41,9 +48,11 @@ class InventoryTable extends Component {
                 <InventoryContent
                     opened = {this.state.opened}
                     inventoryStorage = {inventoryStorage}
+                    editing = {this.state.editing}
                 />
                 <Edit
                     opened = {this.state.opened}
+                    clickedEdit = {()=>this.clickedEdit()}
                 />
             </div>
         )
@@ -73,8 +82,16 @@ function InventoryContent(props){
     for (var ii =0; ii < props.inventoryStorage.length; ii++){
         listItems.push(
             <div className="row" key={props.inventoryStorage[ii].name.toString()}>
-                <div className = "col-xs-6" key={"name:" + props.inventoryStory}>{props.inventoryStorage[ii].name}</div>
-                <div className = "col-xs-6" key={"quantity:" + props.inventoryStory}>{props.inventoryStorage[ii].quantity}</div>
+                <div className = "col-xs-6" key={"name:" + props.inventoryStory}>
+                    <form onSubmit={handleEditSubmit}>
+                        <input type="text" value={props.inventoryStorage[ii].name} onChange={()=>{console.log("do stuff")}}/>
+                    </form>   
+                </div>
+                <div className = "col-xs-6" key={"quantity:" + props.inventoryStory}>
+                    <form onSubmit={handleEditSubmit}>
+                        <input type="text" value={props.inventoryStorage[ii].quantity} onChange={()=>{console.log("do stuff")}}/>
+                    </form>
+                </div>
             </div>
         )
     }
@@ -85,10 +102,15 @@ function InventoryContent(props){
     )
 }
 
+function handleEditSubmit(event){
+    event.preventDefault();
+    return;
+}
+
 function Edit(props){
     if (props.opened === false) return null;
     return (
-        <button>Edit</button>
+        <button onClick={()=>props.clickedEdit()}>Edit</button>
     )
 }
 
