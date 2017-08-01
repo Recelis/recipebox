@@ -36,6 +36,22 @@ class InventoryTable extends Component {
             editing:this.state.editing? false:true
         })
     }
+
+    addRow(){
+        var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
+        if (contentObject[contentObject.length - 1].stockName === '') {
+            alert("You need to enter item first!");
+            return;
+        } else if (contentObject[contentObject.length - 1].quantity === ''){
+            alert("You need to enter a quantity for your item!");
+            return;
+        } else{
+            contentObject.push({stockName:'', quantity:''});
+            this.setState({
+                inventoryStorage:contentObject
+            })
+        }
+    }
     
     render(){
         return (
@@ -60,6 +76,7 @@ class InventoryTable extends Component {
                 <Add
                     opened = {this.state.opened}
                     editing = {this.state.editing}
+                    addRow = {()=>this.addRow()}
                 />
             
             </div>
@@ -125,7 +142,7 @@ function Edit(props){
 function Add(props){
     if (props.opened === false || props.editing === false) return null;
     return(
-        <button>Add Inventory</button>
+        <button onClick = {()=>{props.addRow()}}>Add Inventory</button>
     )
 }
 
