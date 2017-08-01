@@ -29,10 +29,14 @@ class InventoryTable extends Component {
                     onClick={()=>this.clickedOpen()}
                 />
                 <Description
-                
+                    opened = {this.state.opened}
                 />
-                <InventoryContent/>
-                <Edit/>
+                <InventoryContent
+                    opened = {this.state.opened}
+                />
+                <Edit
+                    opened = {this.state.opened}
+                />
             </div>
         )
     }
@@ -46,18 +50,21 @@ function Title(props){
 }
 
 function Description(props){
+    if (props.opened === false) return null;
     return (
         <div>Some Description</div>
     )
 }
 
 function InventoryContent(props){
+    if (props.opened === false) return null;
     return (
         <div>some content</div>
     )
 }
 
 function Edit(props){
+    if (props.opened === false) return null;
     return (
         <button>Edit</button>
     )
