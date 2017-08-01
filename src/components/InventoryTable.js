@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 
-
 class InventoryTable extends Component {
     constructor(){
         super();
@@ -8,7 +7,9 @@ class InventoryTable extends Component {
             opened:false,
             openedValue: '+',
             editing:false,
+            inventoryStorage:[{stockName:'', quantity:''}]
         }
+        this.changedContent = this.changedContent.bind(this);
     }
 
     clickedOpen(){
@@ -21,7 +22,13 @@ class InventoryTable extends Component {
             openedValue:'-'
         });
     }
-
+    changedContent(row,location,event){
+       var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
+       contentObject[row][location] = event.target.value;
+       this.setState({
+           inventoryStorage:contentObject
+       })
+    }
     clickedEdit(){
         this.setState({
             editing:this.state.editing? false:true
@@ -29,13 +36,6 @@ class InventoryTable extends Component {
     }
     
     render(){
-        var inventoryStorage = [{
-            name:'empty',
-            quantity:'10',
-        },
-        {name:'happy',
-            quantity:'10',
-        }];
         return (
             <div>
                 <Title
@@ -47,8 +47,9 @@ class InventoryTable extends Component {
                 />
                 <InventoryContent
                     opened = {this.state.opened}
-                    inventoryStorage = {inventoryStorage}
+                    inventoryStorage = {this.state.inventoryStorage}
                     editing = {this.state.editing}
+                    changedContent = {this.changedContent}
                 />
                 <Edit
                     opened = {this.state.opened}
@@ -81,15 +82,15 @@ function InventoryContent(props){
     var listItems = [];
     for (var ii =0; ii < props.inventoryStorage.length; ii++){
         listItems.push(
-            <div className="row" key={props.inventoryStorage[ii].name.toString()}>
-                <div className = "col-xs-6" key={"name:" + props.inventoryStory}>
+            <div className="row" key={ii.toString()}>
+                <div className = "col-xs-6" key={"stockName:" + props.inventoryStorage}>
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.inventoryStorage[ii].name} onChange={()=>{console.log("do stuff")}}/>
+                        <input type="text" value={props.inventoryStorage[ii].stockName} onChange={props.changedContent.bind(this,ii,"stockName")}/>
                     </form>   
                 </div>
-                <div className = "col-xs-6" key={"quantity:" + props.inventoryStory}>
+                <div className = "col-xs-6" key={"quantity:" + props.inventoryStorage}>
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.inventoryStorage[ii].quantity} onChange={()=>{console.log("do stuff")}}/>
+                        <input type="text" value={props.inventoryStorage[ii].quantity} onChange={props.changedContent.bind(this,ii,"quantity")}/>
                     </form>
                 </div>
             </div>
