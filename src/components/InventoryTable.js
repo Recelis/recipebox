@@ -22,6 +22,13 @@ class InventoryTable extends Component {
     }
     
     render(){
+        var inventoryStorage = [{
+            name:'empty',
+            quantity:'10',
+        },
+        {name:'happy',
+            quantity:'10',
+        }];
         return (
             <div>
                 <Title
@@ -33,6 +40,7 @@ class InventoryTable extends Component {
                 />
                 <InventoryContent
                     opened = {this.state.opened}
+                    inventoryStorage = {inventoryStorage}
                 />
                 <Edit
                     opened = {this.state.opened}
@@ -52,14 +60,28 @@ function Title(props){
 function Description(props){
     if (props.opened === false) return null;
     return (
-        <div>Some Description</div>
+        <div className="row">
+            <div className="col-xs-6"><h2>Stock</h2></div>
+            <div className="col-xs-6"><h2>Quantity (g)</h2></div>
+        </div>
     )
 }
 
 function InventoryContent(props){
     if (props.opened === false) return null;
+    var listItems = [];
+    for (var ii =0; ii < props.inventoryStorage.length; ii++){
+        listItems.push(
+            <div className="row" key={props.inventoryStorage[ii].name.toString()}>
+                <div className = "col-xs-6" key={"name:" + props.inventoryStory}>{props.inventoryStorage[ii].name}</div>
+                <div className = "col-xs-6" key={"quantity:" + props.inventoryStory}>{props.inventoryStorage[ii].quantity}</div>
+            </div>
+        )
+    }
     return (
-        <div>some content</div>
+        <div>
+            {listItems}
+        </div>
     )
 }
 

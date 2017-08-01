@@ -4,7 +4,7 @@ class IngredientTable extends Component{
 
     render(){
         return(
-            <div> Ingredients
+            <div> <button>Ingredients</button>
             </div>
         )   
     }
