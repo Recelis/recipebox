@@ -23,11 +23,13 @@ class InventoryTable extends Component {
         });
     }
     changedContent(row,location,event){
-       var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
-       contentObject[row][location] = event.target.value;
-       this.setState({
-           inventoryStorage:contentObject
-       })
+        if (this.state.editing){
+            var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
+            contentObject[row][location] = event.target.value;
+            this.setState({
+                inventoryStorage:contentObject
+            })
+        }
     }
     clickedEdit(){
         this.setState({
