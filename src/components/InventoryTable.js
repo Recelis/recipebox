@@ -57,6 +57,11 @@ class InventoryTable extends Component {
                     opened = {this.state.opened}
                     clickedEdit = {()=>this.clickedEdit()}
                 />
+                <Add
+                    opened = {this.state.opened}
+                    editing = {this.state.editing}
+                />
+            
             </div>
         )
     }
@@ -114,6 +119,13 @@ function Edit(props){
     if (props.opened === false) return null;
     return (
         <button onClick={()=>props.clickedEdit()}>Edit</button>
+    )
+}
+
+function Add(props){
+    if (props.opened === false || props.editing === false) return null;
+    return(
+        <button>Add Inventory</button>
     )
 }
 
