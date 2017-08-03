@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 class InventoryTable extends Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             opened: false,
@@ -37,7 +37,7 @@ class InventoryTable extends Component {
         })
     }
 
-    addRow() {
+    addRow(props) {
         var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
         if (contentObject[contentObject.length - 1].stockName === '') {
             alert("You need to enter item first!");
@@ -51,8 +51,7 @@ class InventoryTable extends Component {
         } else if (contentObject[contentObject.length - 1].quantity.match(/\d+/g)[0] !== contentObject[contentObject.length - 1].quantity) {
             alert("You may have accidentally typed an incorrect value in.");
             return;
-        }
-        else {
+        } else {
             contentObject.push({ stockName: '', quantity: '' });
             this.setState({
                 inventoryStorage: contentObject
@@ -83,7 +82,7 @@ class InventoryTable extends Component {
                 <Add
                     opened={this.state.opened}
                     editing={this.state.editing}
-                    addRow={() => this.addRow()}
+                    addRow={(props) => this.addRow(props)}
                 />
 
             </div>

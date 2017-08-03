@@ -10,13 +10,12 @@ class RecipeBox extends Component {
             somestate:''
         };
     }
-
+    
     render(){
         return(
             <div>
                 <h1>The RecipeBox 9000+</h1>
                 <InventoryTable
-                
                 />
                 <IngredientTable
                 
