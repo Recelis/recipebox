@@ -4,7 +4,7 @@ class Recipes extends Component{
     constructor(){
         super();
         this.state = {
-            recipesStorage: [{recipeName: '', stockName: '', quantity: '', inStock: 0}]
+            recipesStorage: [{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 0}],
         }
     } 
     rowsOfRecipes(){
@@ -16,10 +16,18 @@ class Recipes extends Component{
                 key = {ii}
                 recipesStorage = {this.state.recipesStorage}
                 changeRecipe = {()=>this.changeRecipe()}
+                clickedRecipe = {this.clickedRecipe.bind(this,ii)}
             />
             );
         }
         return rows;
+    }
+    clickedRecipe(ii){
+        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        contentObject[ii].showIngredients = (contentObject[ii].showIngredients) ? false:true;
+        this.setState({
+            recipesStorage:contentObject
+        })
     }
 
     changeRecipe(row, location, event) {
@@ -32,7 +40,6 @@ class Recipes extends Component{
         }
     }
     render(){
-        console.log(this.props.opened);
         if (this.props.opened === false) return null;
         return(
             <div>
@@ -45,14 +52,16 @@ class Recipes extends Component{
 function RecipeList(props){
     return (
         <div>
-        <button>{props.recipesStorage[props.ii].recipeName}</button>
+        <button onClick = {()=>props.clickedRecipe(props.ii)}>{props.recipesStorage[props.ii].recipeName}</button>
         <RecipesContent
                 key={props.ii} // change 
                 status = {"status"} // change
                 recipesStorage = {props.recipesStorage}
                 changeRecipe = {()=>props.changeRecipe()}
                 ii = {props.ii}
-            />
+                showIngredients = {props.recipesStorage[props.ii].showIngredients}
+        />
+        <Edit/>
         </div>
     )
 }
@@ -62,7 +71,8 @@ function handleEditSubmit(event){
     return;
 }
 
-function RecipesContent(props){  
+function RecipesContent(props){ 
+    if (props.showIngredients === false) return null; 
     return(
         <div className="row">
             <div className="col-xs-4">
@@ -76,6 +86,14 @@ function RecipesContent(props){
                 </form>
             </div>
             <div className="col-xs-4"><p className = {props.status}></p></div>
+        </div>
+    )
+}
+
+function Edit(props){
+    return(
+        <div>
+            <button>Edit</button>
         </div>
     )
 }
