@@ -5,7 +5,9 @@ class Recipes extends Component{
         super();
         this.state = {
             recipesStorage: [{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 0}],
+            editing:false
         }
+        this.changeRecipe = this.changeRecipe.bind(this);
     } 
     rowsOfRecipes(){
         var rows = [];
@@ -15,13 +17,20 @@ class Recipes extends Component{
                 ii={ii}
                 key = {ii}
                 recipesStorage = {this.state.recipesStorage}
-                changeRecipe = {()=>this.changeRecipe()}
+                changeRecipe = {this.changeRecipe}
                 clickedRecipe = {this.clickedRecipe.bind(this,ii)}
+                clickedEdit = {()=>this.clickedEdit()}
             />
             );
         }
         return rows;
     }
+    clickedEdit(){
+        this.setState({
+            editing:(this.state.editing)?false:true
+        })
+    }
+
     clickedRecipe(ii){
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         contentObject[ii].showIngredients = (contentObject[ii].showIngredients) ? false:true;
@@ -32,21 +41,31 @@ class Recipes extends Component{
 
     changeRecipe(row, location, event) {
         if (this.state.editing) {
-            var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
+            var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
             contentObject[row][location] = event.target.value;
             this.setState({
-                inventoryStorage: contentObject
+                recipesStorage: contentObject
             })
         }
     }
+
     render(){
         if (this.props.opened === false) return null;
         return(
             <div>
                 {this.rowsOfRecipes()}
+                <AddRecipe/>
             </div>
         )
     }
+}
+
+function AddRecipe(){
+    return (
+        <div>
+            <button>Add Recipe</button>
+        </div>
+    )
 }
 
 function RecipeList(props){
@@ -55,13 +74,16 @@ function RecipeList(props){
         <button onClick = {()=>props.clickedRecipe(props.ii)}>{props.recipesStorage[props.ii].recipeName}</button>
         <RecipesContent
                 key={props.ii} // change 
-                status = {"status"} // change
                 recipesStorage = {props.recipesStorage}
-                changeRecipe = {()=>props.changeRecipe()}
+                changeRecipe = {props.changeRecipe}
                 ii = {props.ii}
+                status = {props.recipesStorage[props.ii].inStock}
                 showIngredients = {props.recipesStorage[props.ii].showIngredients}
         />
-        <Edit/>
+        <Edit
+            showIngredients = {props.recipesStorage[props.ii].showIngredients}
+            clickedEdit =  {()=>props.clickedEdit()}
+        />
         </div>
     )
 }
@@ -77,12 +99,12 @@ function RecipesContent(props){
         <div className="row">
             <div className="col-xs-4">
                 <form onSubmit={handleEditSubmit}>
-                    <input type="text" value={props.recipesStorage.quantity} onChange={props.changeRecipe.bind(this,props.ii, "stockName")}/>
+                    <input type="text" value={props.recipesStorage[props.ii].stockName} onChange={props.changeRecipe.bind(this,props.ii, "stockName")}/>
                 </form>
             </div>
             <div className="col-xs-4">
                 <form onSubmit={handleEditSubmit}>
-                    <input type="text" value={props.recipesStorage.quantity} onChange={props.changeRecipe.bind(this,props.ii, "quantity")}/>
+                    <input type="text" value={props.recipesStorage[props.ii].quantity} onChange={props.changeRecipe.bind(this,props.ii, "quantity")}/>
                 </form>
             </div>
             <div className="col-xs-4"><p className = {props.status}></p></div>
@@ -91,9 +113,10 @@ function RecipesContent(props){
 }
 
 function Edit(props){
+    if (props.showIngredients === false) return null;
     return(
         <div>
-            <button>Edit</button>
+            <button onClick = {()=>props.clickedEdit()}>Edit</button>
         </div>
     )
 }
