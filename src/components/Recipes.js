@@ -4,7 +4,7 @@ class Recipes extends Component{
     constructor(){
         super();
         this.state = {
-            recipesStorage: [{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 0}],
+            recipesStorage: [{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock:'none'}],
             editing:false
         }
         this.changeRecipe = this.changeRecipe.bind(this);
@@ -20,11 +20,16 @@ class Recipes extends Component{
                 changeRecipe = {this.changeRecipe}
                 clickedRecipe = {this.clickedRecipe.bind(this,ii)}
                 clickedEdit = {()=>this.clickedEdit()}
+                makeTonight = {()=>this.makeTonight}
             />
             );
         }
         return rows;
     }
+    makeTonight(){
+        console.log("please fill this in!");
+    }
+
     clickedEdit(){
         this.setState({
             editing:(this.state.editing)?false:true
@@ -49,21 +54,27 @@ class Recipes extends Component{
         }
     }
 
+    clickedAddRecipe(){
+
+    }
+
     render(){
         if (this.props.opened === false) return null;
         return(
             <div>
                 {this.rowsOfRecipes()}
-                <AddRecipe/>
+                <AddRecipe
+                    clickedAddRecipe = {()=>this.clickedAddRecipe()}
+                />
             </div>
         )
     }
 }
 
-function AddRecipe(){
+function AddRecipe(props){
     return (
         <div>
-            <button>Add Recipe</button>
+            <button onClick = {()=>props.clickedAddRecipe()}>Add Recipe</button>
         </div>
     )
 }
@@ -72,6 +83,7 @@ function RecipeList(props){
     return (
         <div>
         <button onClick = {()=>props.clickedRecipe(props.ii)}>{props.recipesStorage[props.ii].recipeName}</button>
+        <button onClick = {()=>props.makeTonight()}>Make Tonight</button>
         <RecipesContent
                 key={props.ii} // change 
                 recipesStorage = {props.recipesStorage}
@@ -97,17 +109,17 @@ function RecipesContent(props){
     if (props.showIngredients === false) return null; 
     return(
         <div className="row">
-            <div className="col-xs-4">
+            <div className="col-xs-3">
                 <form onSubmit={handleEditSubmit}>
                     <input type="text" value={props.recipesStorage[props.ii].stockName} onChange={props.changeRecipe.bind(this,props.ii, "stockName")}/>
                 </form>
             </div>
-            <div className="col-xs-4">
+            <div className="col-xs-3">
                 <form onSubmit={handleEditSubmit}>
                     <input type="text" value={props.recipesStorage[props.ii].quantity} onChange={props.changeRecipe.bind(this,props.ii, "quantity")}/>
                 </form>
             </div>
-            <div className="col-xs-4"><p className = {props.status}></p></div>
+            <div className="col-xs-3"><p className = {props.status}></p></div>
         </div>
     )
 }

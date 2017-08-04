@@ -2,14 +2,22 @@ import React, { Component } from 'react'
 
 class InventoryTable extends Component {
     constructor(props) {
+        // get all inventoryStorage in local Storage
+        var readLocalInventory = [];
+        for (var ii =0; ii < localStorage.length; ii++){
+            if (localStorage['inventoryStorage'+ii] !== null) readLocalInventory.push(JSON.parse(localStorage['inventoryStorage'+ii]));
+            else break;
+        } 
+        if (readLocalInventory.length === 0) readLocalInventory.push({ stockName: '', quantity: '' });
         super();
         this.state = {
             opened: false,
             openedValue: '+',
             editing: false,
-            inventoryStorage: [{ stockName: '', quantity: '' }]
+            inventoryStorage: readLocalInventory
         }
         this.changedContent = this.changedContent.bind(this);
+        console.log(this.state.inventoryStorage);
     }
 
     clickedOpen() {
@@ -29,6 +37,16 @@ class InventoryTable extends Component {
             this.setState({
                 inventoryStorage: contentObject
             })
+
+            if (typeof (Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.removeItem("inventoryStorage" + row);
+                localStorage.setItem("inventoryStorage" + row, JSON.stringify(contentObject[row]));
+                console.log(localStorage["inventoryStorage" + row]);
+            } else {
+                // Sorry! No Web Storage support..
+            }
+            
         }
     }
     clickedEdit() {
