@@ -28,7 +28,6 @@ class RecipeRow extends Component {
                     recipesStorage={this.props.recipesStorage}
                     changeRecipe={this.props.changeRecipe}
                     ii={this.props.ii}
-                    status={this.props.recipesStorage[this.props.ii].inStock}
                     showIngredients={this.props.recipesStorage[this.props.ii].showIngredients}
                 />
                 <Edit
@@ -44,13 +43,13 @@ function RecipeTitle(props) {
     if (props.editing) {
         return (
             <form onSubmit={handleEditSubmit}>
-                <input type="text" value={props.recipesStorage[props.ii].recipeName} onChange={props.changeRecipe.bind(this, props.ii, "recipeName")} />
+                <input type="text" value={props.recipesStorage[props.ii][0].recipeName} onChange={props.changeRecipe.bind(this, props.ii, 0,"recipeName")} />
             </form>
         )
     }
     else return (
         <button onClick={() => props.clickedRecipe(props.ii)}>
-            {props.recipesStorage[props.ii].recipeName}
+            {props.recipesStorage[props.ii][0].recipeName}
         </button>
     )
 }
@@ -73,20 +72,26 @@ function Description(props) {
 
 function RecipesContent(props) {
     if (props.showIngredients === false) return null;
+    var rows = [];
+    for (var jj = 0; jj < props.recipesStorage[props.ii].length;jj++){
+        rows.push(
+            <div className="row" key={("ingredients" + jj).toString()}>
+                <div className="col-xs-4">
+                    <form onSubmit={handleEditSubmit}>
+                        <input type="text" value={props.recipesStorage[props.ii][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii,jj, "stockName")} />
+                    </form>
+                </div>
+                <div className="col-xs-4">
+                    <form onSubmit={handleEditSubmit}>
+                        <input type="text" value={props.recipesStorage[props.ii][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii,jj, "quantity")} />
+                    </form>
+                </div>
+                <div className="col-xs-4"><p className={props.recipesStorage[props.ii][jj].inStock}></p></div>
+            </div>
+        );
+    }
     return (
-        <div className="row">
-            <div className="col-xs-4">
-                <form onSubmit={handleEditSubmit}>
-                    <input type="text" value={props.recipesStorage[props.ii].stockName} onChange={props.changeRecipe.bind(this, props.ii, "stockName")} />
-                </form>
-            </div>
-            <div className="col-xs-4">
-                <form onSubmit={handleEditSubmit}>
-                    <input type="text" value={props.recipesStorage[props.ii].quantity} onChange={props.changeRecipe.bind(this, props.ii, "quantity")} />
-                </form>
-            </div>
-            <div className="col-xs-4"><p className={props.status}></p></div>
-        </div>
+        <div>{rows}</div>
     )
 }
 
