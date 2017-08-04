@@ -121,6 +121,7 @@ class RecipesList extends Component {
             <div>
                 {this.rowsOfRecipes()}
                 <AddRecipe
+                    editing = {this.state.editing}
                     clickedAddRecipe={() => this.clickedAddRecipe()}
                 />
             </div>
@@ -129,6 +130,7 @@ class RecipesList extends Component {
 }
 
 function AddRecipe(props) {
+    if (props.editing) return null;
     return (
         <div>
             <button onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
