@@ -1,48 +1,55 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import RecipeRow from './RecipeRow'
 
-class RecipesList extends Component{
-    constructor(){
+class RecipesList extends Component {
+    constructor() {
         super();
-        // var readLocalRecipes = 
+        var readLocalRecipes = [];
+        for (var ii = 0; ii < localStorage.length; ii++) {
+            if (localStorage['recipeStorage' + ii] !== null) readLocalRecipes.push(JSON.parse(localStorage['recipeStorage' + ii]))
+            else break;
+        }
+        if (readLocalRecipes.length === 0) readLocalRecipes.push({ recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none' });
         this.state = {
-            recipesStorage: [{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock:'none'}],
-            editing:false
+            recipesStorage: readLocalRecipes,
+            editing: false
         }
         this.changeRecipe = this.changeRecipe.bind(this);
-    } 
-    rowsOfRecipes(){
+    }
+    rowsOfRecipes() {
         var rows = [];
-        for (var ii = 0; ii < this.state.recipesStorage.length; ii++){
+        for (var ii = 0; ii < this.state.recipesStorage.length; ii++) {
             rows.push(
-            <RecipeRow
-                ii={ii}
-                key = {ii}
-                recipesStorage = {this.state.recipesStorage}
-                changeRecipe = {this.changeRecipe}
-                clickedRecipe = {this.clickedRecipe.bind(this,ii)}
-                clickedEdit = {()=>this.clickedEdit()}
-                makeTonight = {()=>this.makeTonight}
-            />
+                <div key={'recipe' + ii}>
+                    <RecipeRow
+                        ii={ii}
+                        key={ii}
+                        recipesStorage={this.state.recipesStorage}
+                        changeRecipe={this.changeRecipe}
+                        clickedRecipe={this.clickedRecipe.bind(this, ii)}
+                        clickedEdit={() => this.clickedEdit()}
+                        makeTonight={() => this.makeTonight}
+                    />
+                </div>
             );
         }
         return rows;
     }
-    makeTonight(){
+    makeTonight() {
         console.log("please fill this in!");
     }
 
-    clickedEdit(){
+    clickedEdit() {
         this.setState({
-            editing:(this.state.editing)?false:true
+            editing: (this.state.editing) ? false : true
         })
     }
 
-    clickedRecipe(ii){
+    clickedRecipe(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        contentObject[ii].showIngredients = (contentObject[ii].showIngredients) ? false:true;
+        contentObject[ii].showIngredients = (contentObject[ii].showIngredients) ? false : true;
         this.setState({
-            recipesStorage:contentObject
+            recipesStorage: contentObject
         })
     }
 
@@ -53,30 +60,41 @@ class RecipesList extends Component{
             this.setState({
                 recipesStorage: contentObject
             })
+            if (typeof (Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.removeItem("recipeStorage" + row);
+                localStorage.setItem("recipeStorage" + row, JSON.stringify(contentObject[row]));
+                console.log(localStorage["recipeStorage" + row]);
+            } else {
+                // Sorry! No Web Storage support..
+                alert("Please use a modern major browser");
+            }
         }
     }
 
-    clickedAddRecipe(){
-
+    clickedAddRecipe() {
+        // check that there is a name for prev recipe
+        // check that there are ingredients in prev recipe
+        // check that quantities are numerical
     }
 
-    render(){
+    render() {
         if (this.props.opened === false) return null;
-        return(
+        return (
             <div>
                 {this.rowsOfRecipes()}
                 <AddRecipe
-                    clickedAddRecipe = {()=>this.clickedAddRecipe()}
+                    clickedAddRecipe={() => this.clickedAddRecipe()}
                 />
             </div>
         )
     }
 }
 
-function AddRecipe(props){
+function AddRecipe(props) {
     return (
         <div>
-            <button onClick = {()=>props.clickedAddRecipe()}>Add Recipe</button>
+            <button onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
         </div>
     )
 }

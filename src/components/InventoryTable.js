@@ -45,6 +45,7 @@ class InventoryTable extends Component {
                 console.log(localStorage["inventoryStorage" + row]);
             } else {
                 // Sorry! No Web Storage support..
+                alert("Please use a modern major browser");
             }
             
         }
