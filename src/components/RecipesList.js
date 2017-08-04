@@ -6,8 +6,11 @@ class RecipesList extends Component {
         super();
         var readLocalRecipes = [];
         for (var ii = 0; ii < localStorage.length; ii++) {
-            if (localStorage['recipeStorage' + ii] !== null) readLocalRecipes.push(JSON.parse(localStorage['recipeStorage' + ii]))
-            else break;
+            if (localStorage['recipeStorage' + ii] === null) break;
+            else if (localStorage['recipeStorage'+ii] === undefined) localStorage.removeItem('recipeStorage'+ii);
+            else {
+                
+            }
         }
         if (readLocalRecipes.length === 0) readLocalRecipes.push({ recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none' });
         this.state = {
@@ -73,10 +76,28 @@ class RecipesList extends Component {
         }
     }
 
-    clickedAddRecipe() {
+    clickedAddRecipe(props) {
+        // var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
+        // console.log(contentObject);
         // check that there is a name for prev recipe
         // check that there are ingredients in prev recipe
         // check that quantities are numerical
+        
+        // } else if (contentObject[contentObject.length - 1].quantity === '') {
+        //     alert("You need to enter a quantity for your item!");
+        //     return;
+        // } else if (!contentObject[contentObject.length - 1].quantity.match(/\d+/g)) {
+        //     alert("please enter a value that contains only numbers.");
+        //     return;
+        // } else if (contentObject[contentObject.length - 1].quantity.match(/\d+/g)[0] !== contentObject[contentObject.length - 1].quantity) {
+        //     alert("You may have accidentally typed an incorrect value in.");
+        //     return;
+        // } else {
+        //     contentObject.push({ stockName: '', quantity: '' });
+        //     this.setState({
+        //         inventoryStorage: contentObject
+        //     })
+        // }
     }
 
     render() {
