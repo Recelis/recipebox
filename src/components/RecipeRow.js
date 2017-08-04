@@ -11,11 +11,17 @@ class RecipeRow extends Component {
     render() {
         return (
             <div>
-                <button onClick={() => this.props.clickedRecipe(this.props.ii)}>{this.props.recipesStorage[this.props.ii].recipeName}</button>
+                <RecipeTitle
+                    editing={this.props.editing}
+                    ii={this.props.ii}
+                    clickedRecipe={() => this.props.clickedRecipe()}
+                    recipesStorage={this.props.recipesStorage}
+                    changeRecipe={this.props.changeRecipe}
+                />
                 <button onClick={() => this.props.makeTonight()}>Make Tonight</button>
-                <Description 
-                        key= {'RecipeDescription' +this.props.ii}
-                        showIngredients = {this.props.recipesStorage[this.props.ii].showIngredients}
+                <Description
+                    key={'RecipeDescription' + this.props.ii}
+                    showIngredients={this.props.recipesStorage[this.props.ii].showIngredients}
                 />
                 <RecipesContent
                     key={this.props.ii} // change 
@@ -34,14 +40,29 @@ class RecipeRow extends Component {
     }
 }
 
-function handleEditSubmit(event){
+function RecipeTitle(props) {
+    if (props.editing) {
+        return (
+            <form onSubmit={handleEditSubmit}>
+                <input type="text" value={props.recipesStorage[props.ii].recipeName} onChange={props.changeRecipe.bind(this, props.ii, "recipeName")} />
+            </form>
+        )
+    }
+    else return (
+        <button onClick={() => props.clickedRecipe(props.ii)}>
+            {props.recipesStorage[props.ii].recipeName}
+        </button>
+    )
+}
+
+function handleEditSubmit(event) {
     event.preventDefault();
     return;
 }
 
-function Description(props){
+function Description(props) {
     if (props.showIngredients === false) return null;
-    return(
+    return (
         <div className="row">
             <div className="col-xs-4"><h2>Ingredient</h2></div>
             <div className="col-xs-4"><h2>Quantity (g)</h2></div>

@@ -29,6 +29,7 @@ class RecipesList extends Component {
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={() => this.clickedEdit()}
                         makeTonight={() => this.makeTonight}
+                        editing = {this.state.editing}
                     />
                 </div>
             );
