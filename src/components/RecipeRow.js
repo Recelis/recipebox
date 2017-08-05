@@ -33,10 +33,11 @@ class RecipeRow extends Component {
                 <Edit
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
                     clickedEdit={() => this.props.clickedEdit()}
+                    ii = {this.props.ii}
                 />
                 <Add
                     editing = {this.props.editing}
-                    clickedAddIngred = {this.props.clickedAddIngred}
+                    clickedAddIngred = {()=>this.props.clickedAddIngred()}
                     ii = {this.props.ii}
                 />
             </div>

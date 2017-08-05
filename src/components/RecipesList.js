@@ -8,6 +8,7 @@ class RecipesList extends Component {
         var currentRecipe = '';
         var recipeNum = 0;
         var recipeLocalLine = [];
+        console.log(localStorage.length);
         for (var ii = 0; ii < localStorage.length; ii++) {
             console.log(ii);
             console.log(localStorage['recipeStorage' + ii]);
@@ -20,7 +21,8 @@ class RecipesList extends Component {
                     currentRecipe = recipeLocalLine.recipeName;
                     recipeNum++;
                 }
-                readLocalRecipes[recipeNum-1][2].push(recipeLocalLine)
+                var recipeObject = {stockName:recipeLocalLine.stockName, quantity:recipeLocalLine.quantity, inStock:recipeLocalLine.inStock}
+                readLocalRecipes[recipeNum-1][2].push(recipeObject)
                 // console.log(recipeLocalLine); 
             }
         }
@@ -131,11 +133,11 @@ class RecipesList extends Component {
     clickedAddRecipe() {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         // check that there is a name for prev recipe
-        if (contentObject[contentObject.length-1][0].recipeName.length === 0) {
+        if (contentObject[contentObject.length-1][0].length === 0) {
             alert("Your recipe is not named!");
             return;
         } 
-        contentObject.push([{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none'}]);
+        contentObject.push(['', false, [{stockName: '', quantity: '', inStock: 'none'}]]);
         console.log(contentObject);
         this.setState({
             recipesStorage: contentObject
