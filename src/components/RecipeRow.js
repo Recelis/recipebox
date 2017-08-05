@@ -36,7 +36,8 @@ class RecipeRow extends Component {
                 />
                 <Add
                     editing = {this.props.editing}
-                    clickedAddIngred = {()=>this.props.clickedAddIngred()}
+                    clickedAddIngred = {this.props.clickedAddIngred}
+                    ii = {this.props.ii}
                 />
             </div>
         )
@@ -112,7 +113,7 @@ function Edit(props) {
 function Add(props){
     if (!props.editing) return null; 
     return(
-        <button onClick={()=> props.clickedAddIngred()}>Add Ingredient</button>
+        <button onClick={()=> props.clickedAddIngred(props.ii)}>Add Ingredient</button>
     )
 }
 

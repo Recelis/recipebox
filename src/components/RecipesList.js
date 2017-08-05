@@ -44,7 +44,7 @@ class RecipesList extends Component {
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={() => this.clickedEdit()}
-                        clickedAddIngred = {()=> this.clickedAddIngred()}
+                        clickedAddIngred = {this.clickedAddIngred.bind(this,ii)}
                         makeTonight={() => this.makeTonight}
                         editing = {this.state.editing}
                     />
@@ -103,10 +103,29 @@ class RecipesList extends Component {
         }
     }
 
-    clickedAddIngred(){
-        //check that there are ingredients in prev recipe
+    clickedAddIngred(ii){
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        //check that quantities are numerical
+        var quantity = contentObject[ii][2][contentObject[ii][2].length-1].quantity;
+        console.log(quantity.match(/\d+/g));
+        if (contentObject[ii][2][contentObject[ii][2].length-1].stockName ===""){
+            alert("please type an ingredient in!");
+            return;
+        } else if (contentObject[ii][2][contentObject[ii][2].length-1].quantity ===""){
+            alert("You need to enter a quantity for your item!");
+            return;
+        } else if (!quantity.match(/\d+/g)){
+            alert("please enter a value that contains only numbers.");
+            return;
+        } else if(quantity.match(/\d+/g)[0] !== quantity){
+            alert("You may have accidentally typed an incorrect value in.");
+            return;
+        } else{
+            contentObject[ii][2].push({stockName: '', quantity: '', inStock: 'none' });
+            console.log(contentObject);
+            this.setState({
+                recipesStorage:contentObject
+            })
+        }
     }
 
     clickedAddRecipe() {
