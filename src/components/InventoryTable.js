@@ -57,7 +57,7 @@ class InventoryTable extends Component {
         })
     }
 
-    addRow(props) {
+    addRow() {
         var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
         if (contentObject[contentObject.length - 1].stockName === '') {
             alert("You need to enter item first!");

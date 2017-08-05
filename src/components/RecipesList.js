@@ -10,21 +10,21 @@ class RecipesList extends Component {
         var recipeLocalLine = [];
         console.log("test");
         for (var ii = 0; ii < localStorage.length; ii++) {
-            console.log(ii);
+            // console.log(ii);
             if (localStorage['recipeStorage' + ii] === null) break;
             else if (localStorage['recipeStorage'+ii] === undefined) localStorage.removeItem('recipeStorage'+ii);
             else {
                 recipeLocalLine = JSON.parse(localStorage['recipeStorage'+ii]);
                 if (currentRecipe.length === 0 || currentRecipe !== recipeLocalLine.recipeName) {
-                    readLocalRecipes.push([]);
+                    readLocalRecipes.push([[recipeLocalLine.recipeName],[recipeLocalLine.showIngredients],[]]);
                     currentRecipe = recipeLocalLine.recipeName;
                     recipeNum++;
                 }
-                readLocalRecipes[recipeNum-1].push(recipeLocalLine[0])
+                readLocalRecipes[recipeNum-1][2].push(recipeLocalLine[0])
                 console.log(recipeLocalLine); 
             }
         }
-        if (readLocalRecipes.length === 0) readLocalRecipes.push([{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none' }]);
+        if (readLocalRecipes.length === 0) readLocalRecipes.push([[''],[false],[{stockName: '', quantity: '', inStock: 'none' }]]);
         this.state = {
             recipesStorage: readLocalRecipes,
             editing: false
@@ -44,6 +44,7 @@ class RecipesList extends Component {
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={() => this.clickedEdit()}
+                        clickedAddIngred = {()=> this.clickedAddIngred()}
                         makeTonight={() => this.makeTonight}
                         editing = {this.state.editing}
                     />
@@ -64,7 +65,7 @@ class RecipesList extends Component {
 
     clickedRecipe(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        contentObject[ii].showIngredients = (contentObject[ii].showIngredients) ? false : true;
+        contentObject[ii][0].showIngredients = (contentObject[ii][0].showIngredients) ? false : true;
         this.setState({
             recipesStorage: contentObject
         })
@@ -73,7 +74,8 @@ class RecipesList extends Component {
     changeRecipe(row, ingredient, location, event) {
         if (this.state.editing) {
             var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-            contentObject[row][ingredient][location] = event.target.value;
+            console.log(contentObject);
+            contentObject[row][2][ingredient][location] = event.target.value;
             this.setState({
                 recipesStorage: contentObject
             })
@@ -81,8 +83,8 @@ class RecipesList extends Component {
                 // Code for localStorage/sessionStorage.
                 localStorage.removeItem("recipeStorage" + row);
                 localStorage.setItem("recipeStorage" + row, JSON.stringify(contentObject[row]));
-                console.log(localStorage["recipeStorage" + row]);
-                console.log(row);
+                // console.log(localStorage["recipeStorage" + row]);
+                // console.log(row);
             } else {
                 // Sorry! No Web Storage support..
                 alert("Please use a modern major browser");
@@ -90,29 +92,24 @@ class RecipesList extends Component {
         }
     }
 
-    clickedAddRecipe(props) {
-        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage)); // error here!
-        contentObject.push({ recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none' });
-        // console.log(contentObject);
+    clickedAddIngred(){
+        //check that there are ingredients in prev recipe
+        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        //check that quantities are numerical
+    }
+
+    clickedAddRecipe() {
+        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         // check that there is a name for prev recipe
-        // check that there are ingredients in prev recipe
-        // check that quantities are numerical
-        
-        // } else if (contentObject[contentObject.length - 1].quantity === '') {
-        //     alert("You need to enter a quantity for your item!");
-        //     return;
-        // } else if (!contentObject[contentObject.length - 1].quantity.match(/\d+/g)) {
-        //     alert("please enter a value that contains only numbers.");
-        //     return;
-        // } else if (contentObject[contentObject.length - 1].quantity.match(/\d+/g)[0] !== contentObject[contentObject.length - 1].quantity) {
-        //     alert("You may have accidentally typed an incorrect value in.");
-        //     return;
-        // } else {
-        //     contentObject.push({ stockName: '', quantity: '' });
-            this.setState({
-                inventoryStorage: contentObject
-            })
-        // }
+        if (contentObject[contentObject.length-1][0].recipeName.length === 0) {
+            alert("Your recipe is not named!");
+            return;
+        } 
+        contentObject.push([{recipeName: '', showIngredients: false, stockName: '', quantity: '', inStock: 'none'}]);
+        console.log(contentObject);
+        this.setState({
+            recipesStorage: contentObject
+        })
     }
 
     render() {
