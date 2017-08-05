@@ -8,7 +8,6 @@ class RecipesList extends Component {
         var currentRecipe = '';
         var recipeNum = 0;
         var recipeLocalLine = [];
-        console.log("test");
         for (var ii = 0; ii < localStorage.length; ii++) {
             // console.log(ii);
             if (localStorage['recipeStorage' + ii] === null) break;
@@ -16,15 +15,15 @@ class RecipesList extends Component {
             else {
                 recipeLocalLine = JSON.parse(localStorage['recipeStorage'+ii]);
                 if (currentRecipe.length === 0 || currentRecipe !== recipeLocalLine.recipeName) {
-                    readLocalRecipes.push([[recipeLocalLine.recipeName],[recipeLocalLine.showIngredients],[]]);
+                    readLocalRecipes.push([recipeLocalLine.recipeName,recipeLocalLine.showIngredients,[]]);
                     currentRecipe = recipeLocalLine.recipeName;
                     recipeNum++;
                 }
                 readLocalRecipes[recipeNum-1][2].push(recipeLocalLine[0])
-                console.log(recipeLocalLine); 
+                // console.log(recipeLocalLine); 
             }
         }
-        if (readLocalRecipes.length === 0) readLocalRecipes.push([[''],[false],[{stockName: '', quantity: '', inStock: 'none' }]]);
+        if (readLocalRecipes.length === 0) readLocalRecipes.push(['',false,[{stockName: '', quantity: '', inStock: 'none' }]]);
         this.state = {
             recipesStorage: readLocalRecipes,
             editing: false
@@ -33,7 +32,7 @@ class RecipesList extends Component {
     }
     rowsOfRecipes() {
         var rows = [];
-        console.log(this.state.recipesStorage);
+        // console.log(this.state.recipesStorage);
         for (var ii = 0; ii < this.state.recipesStorage.length; ii++) {
             rows.push(
                 <div key={'recipe' + ii}>
@@ -65,7 +64,7 @@ class RecipesList extends Component {
 
     clickedRecipe(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        contentObject[ii][0].showIngredients = (contentObject[ii][0].showIngredients) ? false : true;
+        contentObject[ii][1] = (contentObject[ii][1]) ? false : true; // show ingredients
         this.setState({
             recipesStorage: contentObject
         })
@@ -74,16 +73,27 @@ class RecipesList extends Component {
     changeRecipe(row, ingredient, location, event) {
         if (this.state.editing) {
             var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-            console.log(contentObject);
-            contentObject[row][2][ingredient][location] = event.target.value;
+            if (location === 'recipeName') contentObject[row][0] = event.target.value;
+            else contentObject[row][2][ingredient][location] = event.target.value;
             this.setState({
                 recipesStorage: contentObject
             })
             if (typeof (Storage) !== "undefined") {
+                //get row
+                var localStorageRow = 0; 
+                for (var ii =0; ii < contentObject.row-1; ii++){
+                    localStorageRow += contentObject[ii][2].length;
+                } 
+                localStorageRow += ingredient;
+                // console.log("localrow" + localStorageRow);
+                // build localStorageRowObject
+                var localStorageObject = {recipeName:contentObject[row][0], showIngredients:contentObject[row][1]};
+                Object.assign(localStorageObject,contentObject[row][2][ingredient]);
+                // console.log(localStorageObject);
                 // Code for localStorage/sessionStorage.
-                localStorage.removeItem("recipeStorage" + row);
-                localStorage.setItem("recipeStorage" + row, JSON.stringify(contentObject[row]));
-                // console.log(localStorage["recipeStorage" + row]);
+                localStorage.removeItem("recipeStorage" + localStorageRow);
+                localStorage.setItem("recipeStorage" + localStorageRow, JSON.stringify(localStorageObject));
+                // console.log(localStorage["recipeStorage" + localStorageRow]);
                 // console.log(row);
             } else {
                 // Sorry! No Web Storage support..

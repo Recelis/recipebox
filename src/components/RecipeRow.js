@@ -47,13 +47,13 @@ function RecipeTitle(props) {
     if (props.editing) {
         return (
             <form onSubmit={handleEditSubmit}>
-                <input type="text" value={props.recipesStorage[props.ii][0].recipeName} onChange={props.changeRecipe.bind(this, props.ii, 0,"recipeName")} />
+                <input type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0,"recipeName")} />
             </form>
         )
     }
     else return (
         <button onClick={() => props.clickedRecipe(props.ii)}>
-            {props.recipesStorage[props.ii][0].recipeName}
+            {props.recipesStorage[props.ii][0]}
         </button>
     )
 }
@@ -76,14 +76,13 @@ function Description(props) {
 
 function RecipesContent(props) {
     if (props.showIngredients === false) return null;
-    console.log(props.recipesStorage[props.ii][2][0]);
+    // console.log(props.recipesStorage[props.ii][2][0]);
     var rows = [];
     for (var jj = 0; jj < props.recipesStorage[props.ii][2].length;jj++){
         rows.push(
             <div className="row" key={("ingredients" + jj).toString()}>
                 <div className="col-xs-4">
                     <form onSubmit={handleEditSubmit}>
-                        {console.log(jj)}
                         <input type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii,jj, "stockName")} />
                     </form>
                 </div>
