@@ -76,7 +76,7 @@ function Description(props) {
 
 function RecipesContent(props) {
     if (props.showIngredients === false) return null;
-    // console.log(props.recipesStorage[props.ii][2][0]);
+    console.log(props.recipesStorage[props.ii]);
     var rows = [];
     for (var jj = 0; jj < props.recipesStorage[props.ii][2].length;jj++){
         rows.push(
@@ -91,7 +91,7 @@ function RecipesContent(props) {
                         <input type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii,jj, "quantity")} />
                     </form>
                 </div>
-                <div className="col-xs-4"><p className={props.recipesStorage[props.ii][jj].inStock}></p></div>
+                <div className="col-xs-4"><p className={props.recipesStorage[props.ii][2][jj].inStock}></p></div>
             </div>
         );
     }

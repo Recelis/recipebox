@@ -6,7 +6,7 @@ class InventoryTable extends Component {
         var readLocalInventory = [];
         for (var ii =0; ii < localStorage.length; ii++){
             if (localStorage['inventoryStorage'+ii] === null) break; 
-            else if (localStorage['inventoryStorage'+ii] === undefined) localStorage.removeItem('recipeStorage'+ii);
+            else if (localStorage['inventoryStorage'+ii] === undefined) localStorage.removeItem('inventoryStorage'+ii);
             else readLocalInventory.push(JSON.parse(localStorage['inventoryStorage'+ii]));
         } 
         if (readLocalInventory.length === 0) readLocalInventory.push({ stockName: '', quantity: '' });

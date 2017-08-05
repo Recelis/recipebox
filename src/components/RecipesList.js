@@ -9,7 +9,8 @@ class RecipesList extends Component {
         var recipeNum = 0;
         var recipeLocalLine = [];
         for (var ii = 0; ii < localStorage.length; ii++) {
-            // console.log(ii);
+            console.log(ii);
+            console.log(localStorage['recipeStorage' + ii]);
             if (localStorage['recipeStorage' + ii] === null) break;
             else if (localStorage['recipeStorage'+ii] === undefined) localStorage.removeItem('recipeStorage'+ii);
             else {
@@ -19,7 +20,7 @@ class RecipesList extends Component {
                     currentRecipe = recipeLocalLine.recipeName;
                     recipeNum++;
                 }
-                readLocalRecipes[recipeNum-1][2].push(recipeLocalLine[0])
+                readLocalRecipes[recipeNum-1][2].push(recipeLocalLine)
                 // console.log(recipeLocalLine); 
             }
         }
