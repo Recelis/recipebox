@@ -5,39 +5,19 @@ class RecipesList extends Component {
     constructor() {
         super();
         var readLocalRecipes = [];
-        var currentRecipe = '';
-        var recipeNum = 0;
+        var nameDirectory = {};
         var recipeLocalLine = [];
-        console.log(localStorage.length);
         for (var ii = 0; ii < localStorage.length; ii++) {
-            console.log("ii" + ii);
-            console.log("localRecipe"+localStorage['recipeStorage' + ii]);
-            if (localStorage['recipeStorage' + ii] === null) break;
-            else if (localStorage['recipeStorage' + ii] === undefined) localStorage.removeItem('recipeStorage' + ii);
+            if (localStorage['recipeStorage' + ii] === undefined) localStorage.removeItem('recipeStorage' + ii);
             else {
                 recipeLocalLine = JSON.parse(localStorage['recipeStorage' + ii]);
-                if (currentRecipe.length === 0 || currentRecipe !== recipeLocalLine.recipeName) { // new recipe read in
-                    readLocalRecipes.push([recipeLocalLine.recipeName, recipeLocalLine.showIngredients, []]);
-                    currentRecipe = recipeLocalLine.recipeName;
-                    recipeNum++;
-                }
-
-                // algorithm for passing localKeys
                 var recipeObject = { stockName: recipeLocalLine.stockName, quantity: recipeLocalLine.quantity, inStock: recipeLocalLine.inStock, localKey: recipeLocalLine.localKey};
-                var pushed = false;
-                for (var jj=0; jj < recipeNum-1; jj++){
-                    if (recipeLocalLine.recipeName === readLocalRecipes[jj].recipeName){
-                        readLocalRecipes[jj][2].push(recipeObject);
-                        pushed = true;
-                        break;
-                    }
+                if (nameDirectory[recipeLocalLine.recipeName] === undefined) { // new recipe read in
+                    nameDirectory[recipeLocalLine.recipeName] = readLocalRecipes.length;
+                    readLocalRecipes.push([recipeLocalLine.recipeName, recipeLocalLine.showIngredients, [recipeObject]]);
+                } else{
+                    readLocalRecipes[nameDirectory[recipeLocalLine.recipeName]][2].push(recipeObject);
                 }
-                // skip if already pushed
-                if (!pushed){
-                    readLocalRecipes[recipeNum-1][2].push(recipeObject);
-                }
-                
-                console.log(recipeLocalLine); 
             }
         }
         if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey:''}]]);
@@ -99,7 +79,7 @@ class RecipesList extends Component {
                 //get existing localKey or create localKey
                 if (contentObject[row][2][ingredient]['localKey'] === '') {
                     for (var ii = 0; ii < localStorage.length; ii++) {
-                        if (localStorage['recipeStorage' + ii] === null) {
+                        if (localStorage['recipeStorage' + ii] === undefined) {
                             contentObject[row][2][ingredient]['localKey'] = ii;
                             break;
                         }
