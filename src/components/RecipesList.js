@@ -10,23 +10,37 @@ class RecipesList extends Component {
         var recipeLocalLine = [];
         console.log(localStorage.length);
         for (var ii = 0; ii < localStorage.length; ii++) {
-            console.log(ii);
-            console.log(localStorage['recipeStorage' + ii]);
+            console.log("ii" + ii);
+            console.log("localRecipe"+localStorage['recipeStorage' + ii]);
             if (localStorage['recipeStorage' + ii] === null) break;
-            else if (localStorage['recipeStorage'+ii] === undefined) localStorage.removeItem('recipeStorage'+ii);
+            else if (localStorage['recipeStorage' + ii] === undefined) localStorage.removeItem('recipeStorage' + ii);
             else {
-                recipeLocalLine = JSON.parse(localStorage['recipeStorage'+ii]);
-                if (currentRecipe.length === 0 || currentRecipe !== recipeLocalLine.recipeName) {
-                    readLocalRecipes.push([recipeLocalLine.recipeName,recipeLocalLine.showIngredients,[]]);
+                recipeLocalLine = JSON.parse(localStorage['recipeStorage' + ii]);
+                if (currentRecipe.length === 0 || currentRecipe !== recipeLocalLine.recipeName) { // new recipe read in
+                    readLocalRecipes.push([recipeLocalLine.recipeName, recipeLocalLine.showIngredients, []]);
                     currentRecipe = recipeLocalLine.recipeName;
                     recipeNum++;
                 }
-                var recipeObject = {stockName:recipeLocalLine.stockName, quantity:recipeLocalLine.quantity, inStock:recipeLocalLine.inStock}
-                readLocalRecipes[recipeNum-1][2].push(recipeObject)
-                // console.log(recipeLocalLine); 
+
+                // algorithm for passing localKeys
+                var recipeObject = { stockName: recipeLocalLine.stockName, quantity: recipeLocalLine.quantity, inStock: recipeLocalLine.inStock, localKey: recipeLocalLine.localKey};
+                var pushed = false;
+                for (var jj=0; jj < recipeNum-1; jj++){
+                    if (recipeLocalLine.recipeName === readLocalRecipes[jj].recipeName){
+                        readLocalRecipes[jj][2].push(recipeObject);
+                        pushed = true;
+                        break;
+                    }
+                }
+                // skip if already pushed
+                if (!pushed){
+                    readLocalRecipes[recipeNum-1][2].push(recipeObject);
+                }
+                
+                console.log(recipeLocalLine); 
             }
         }
-        if (readLocalRecipes.length === 0) readLocalRecipes.push(['',false,[{stockName: '', quantity: '', inStock: 'none' }]]);
+        if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey:''}]]);
         this.state = {
             recipesStorage: readLocalRecipes,
             editing: false
@@ -46,9 +60,9 @@ class RecipesList extends Component {
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={() => this.clickedEdit()}
-                        clickedAddIngred = {this.clickedAddIngred.bind(this,ii)}
+                        clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
                         makeTonight={() => this.makeTonight}
-                        editing = {this.state.editing}
+                        editing={this.state.editing}
                     />
                 </div>
             );
@@ -82,22 +96,27 @@ class RecipesList extends Component {
                 recipesStorage: contentObject
             })
             if (typeof (Storage) !== "undefined") {
-                //get row
-                var localStorageRow = 0; 
-                for (var ii =0; ii < contentObject.row-1; ii++){
-                    localStorageRow += contentObject[ii][2].length;
-                } 
-                localStorageRow += ingredient;
-                // console.log("localrow" + localStorageRow);
+                //get existing localKey or create localKey
+                if (contentObject[row][2][ingredient]['localKey'] === '') {
+                    for (var ii = 0; ii < localStorage.length; ii++) {
+                        if (localStorage['recipeStorage' + ii] === null) {
+                            contentObject[row][2][ingredient]['localKey'] = ii;
+                            break;
+                        }
+                    }
+                } else{
+                    localStorage.removeItem("recipeStorage" + contentObject[row][2][ingredient]['localKey']);
+                }
+                var localKey = contentObject[row][2][ingredient]['localKey'];
+                console.log("localKey" + localKey);
                 // build localStorageRowObject
-                var localStorageObject = {recipeName:contentObject[row][0], showIngredients:contentObject[row][1]};
-                Object.assign(localStorageObject,contentObject[row][2][ingredient]);
+                var localStorageObject = { recipeName: contentObject[row][0], showIngredients: contentObject[row][1]};
+                Object.assign(localStorageObject, contentObject[row][2][ingredient]);
                 // console.log(localStorageObject);
                 // Code for localStorage/sessionStorage.
-                localStorage.removeItem("recipeStorage" + localStorageRow);
-                localStorage.setItem("recipeStorage" + localStorageRow, JSON.stringify(localStorageObject));
-                // console.log(localStorage["recipeStorage" + localStorageRow]);
-                // console.log(row);
+                
+                localStorage.setItem("recipeStorage" + localKey, JSON.stringify(localStorageObject));
+                console.log(localStorage["recipeStorage" + localKey]);
             } else {
                 // Sorry! No Web Storage support..
                 alert("Please use a modern major browser");
@@ -105,27 +124,27 @@ class RecipesList extends Component {
         }
     }
 
-    clickedAddIngred(ii){
+    clickedAddIngred(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        var quantity = contentObject[ii][2][contentObject[ii][2].length-1].quantity;
+        var quantity = contentObject[ii][2][contentObject[ii][2].length - 1].quantity;
         console.log(quantity.match(/\d+/g));
-        if (contentObject[ii][2][contentObject[ii][2].length-1].stockName ===""){
+        if (contentObject[ii][2][contentObject[ii][2].length - 1].stockName === "") {
             alert("please type an ingredient in!");
             return;
-        } else if (contentObject[ii][2][contentObject[ii][2].length-1].quantity ===""){
+        } else if (contentObject[ii][2][contentObject[ii][2].length - 1].quantity === "") {
             alert("You need to enter a quantity for your item!");
             return;
-        } else if (!quantity.match(/\d+/g)){
+        } else if (!quantity.match(/\d+/g)) {
             alert("please enter a value that contains only numbers.");
             return;
-        } else if(quantity.match(/\d+/g)[0] !== quantity){
+        } else if (quantity.match(/\d+/g)[0] !== quantity) {
             alert("You may have accidentally typed an incorrect value in.");
             return;
-        } else{
-            contentObject[ii][2].push({stockName: '', quantity: '', inStock: 'none' });
+        } else {
+            contentObject[ii][2].push({ stockName: '', quantity: '', inStock: 'none', localKey: '' });
             console.log(contentObject);
             this.setState({
-                recipesStorage:contentObject
+                recipesStorage: contentObject
             })
         }
     }
@@ -133,11 +152,11 @@ class RecipesList extends Component {
     clickedAddRecipe() {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         // check that there is a name for prev recipe
-        if (contentObject[contentObject.length-1][0].length === 0) {
+        if (contentObject[contentObject.length - 1][0].length === 0) {
             alert("Your recipe is not named!");
             return;
-        } 
-        contentObject.push(['', false, [{stockName: '', quantity: '', inStock: 'none'}]]);
+        }
+        contentObject.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey: ''}]]);
         console.log(contentObject);
         this.setState({
             recipesStorage: contentObject
@@ -150,7 +169,7 @@ class RecipesList extends Component {
             <div>
                 {this.rowsOfRecipes()}
                 <AddRecipe
-                    editing = {this.state.editing}
+                    editing={this.state.editing}
                     clickedAddRecipe={() => this.clickedAddRecipe()}
                 />
             </div>
