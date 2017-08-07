@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 
 class RecipeRow extends Component {
-    constructor() {
-        super();
-        this.state = {
-
-        }
-    }
-
     render() {
         return (
             <div>
@@ -33,10 +26,12 @@ class RecipeRow extends Component {
                 <Edit
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
                     clickedEdit={() => this.props.clickedEdit()}
+                    ii = {this.props.ii}
                 />
                 <Add
                     editing = {this.props.editing}
                     clickedAddIngred = {()=>this.props.clickedAddIngred()}
+                    recipesStorage={this.props.recipesStorage}
                     ii = {this.props.ii}
                 />
             </div>
@@ -45,7 +40,7 @@ class RecipeRow extends Component {
 }
 
 function RecipeTitle(props) {
-    if (props.editing) {
+    if (props.editing[props.ii] && props.recipesStorage[props.ii][1] === true) {
         return (
             <form onSubmit={handleEditSubmit}>
                 <input type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0,"recipeName")} />
@@ -77,7 +72,6 @@ function Description(props) {
 
 function RecipesContent(props) {
     if (props.showIngredients === false) return null;
-    console.log(props.recipesStorage[props.ii]);
     var rows = [];
     for (var jj = 0; jj < props.recipesStorage[props.ii][2].length;jj++){
         rows.push(
@@ -105,13 +99,13 @@ function Edit(props) {
     if (props.showIngredients === false) return null;
     return (
         <div>
-            <button onClick={() => props.clickedEdit()}>Edit</button>
+            <button onClick={() => props.clickedEdit(props.ii)}>Edit</button>
         </div>
     )
 }
 
 function Add(props){
-    if (!props.editing) return null; 
+    if (!props.editing || props.recipesStorage[props.ii][1] === false) return null; 
     return(
         <button onClick={()=> props.clickedAddIngred(props.ii)}>Add Ingredient</button>
     )

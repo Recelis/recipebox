@@ -23,8 +23,9 @@ class RecipesList extends Component {
         if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey:''}]]);
         this.state = {
             recipesStorage: readLocalRecipes,
-            editing: false
+            editing: Array(readLocalRecipes.length).fill(false)
         }
+        console.log("yeah!"+ this.state.editing);
         this.changeRecipe = this.changeRecipe.bind(this);
     }
     rowsOfRecipes() {
@@ -39,7 +40,7 @@ class RecipesList extends Component {
                         recipesStorage={this.state.recipesStorage}
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
-                        clickedEdit={() => this.clickedEdit()}
+                        clickedEdit={this.clickedEdit.bind(this,ii)}
                         clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
                         makeTonight={() => this.makeTonight}
                         editing={this.state.editing}
@@ -53,9 +54,13 @@ class RecipesList extends Component {
         console.log("please fill this in!");
     }
 
-    clickedEdit() {
+    clickedEdit(ii) {
+        var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
+        console.log(ii);
+        toggleEditing[ii] = toggleEditing[ii]?false:true;
+        console.log(toggleEditing);
         this.setState({
-            editing: (this.state.editing) ? false : true
+            editing: toggleEditing
         })
     }
 
@@ -68,7 +73,8 @@ class RecipesList extends Component {
     }
 
     changeRecipe(row, ingredient, location, event) {
-        if (this.state.editing) {
+        console.log(this.state.editing[row]);
+        if (this.state.editing[row]) {
             var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
             if (location === 'recipeName') contentObject[row][0] = event.target.value;
             else contentObject[row][2][ingredient][location] = event.target.value;
@@ -131,6 +137,8 @@ class RecipesList extends Component {
 
     clickedAddRecipe() {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        var pushNewEditing = JSON.parse(JSON.stringify(this.state.editing));
+        pushNewEditing.push(false);
         // check that there is a name for prev recipe
         if (contentObject[contentObject.length - 1][0].length === 0) {
             alert("Your recipe is not named!");
@@ -138,8 +146,10 @@ class RecipesList extends Component {
         }
         contentObject.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey: ''}]]);
         console.log(contentObject);
+        
         this.setState({
-            recipesStorage: contentObject
+            recipesStorage: contentObject,
+            editing:pushNewEditing
         })
     }
 
