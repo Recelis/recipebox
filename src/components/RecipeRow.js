@@ -22,6 +22,7 @@ class RecipeRow extends Component {
                     changeRecipe={this.props.changeRecipe}
                     ii={this.props.ii}
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
+                    editing = {this.props.editing}
                 />
                 <Edit
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
@@ -63,9 +64,10 @@ function Description(props) {
     if (props.showIngredients === false) return null;
     return (
         <div className="row">
-            <div className="col-xs-4"><h2>Ingredient</h2></div>
-            <div className="col-xs-4"><h2>Quantity (g)</h2></div>
-            <div className="col-xs-4"><h2>Availability</h2></div>
+            <div className="col-xs-3"></div>
+            <div className="col-xs-3"><h2>Ingredient</h2></div>
+            <div className="col-xs-3"><h2>Quantity (g)</h2></div>
+            <div className="col-xs-3"><h2>Availability</h2></div>
         </div>
     )
 }
@@ -76,22 +78,36 @@ function RecipesContent(props) {
     for (var jj = 0; jj < props.recipesStorage[props.ii][2].length;jj++){
         rows.push(
             <div className="row" key={("ingredients" + jj).toString()}>
-                <div className="col-xs-4">
+                <div className="col-xs-3">
+                    <Delete
+                       editing = {props.editing}
+                       jj = {jj} 
+                       row = {props.ii}
+                    />
+                </div>
+                <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
                         <input type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii,jj, "stockName")} />
                     </form>
                 </div>
-                <div className="col-xs-4">
+                <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
                         <input type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii,jj, "quantity")} />
                     </form>
                 </div>
-                <div className="col-xs-4"><p className={props.recipesStorage[props.ii][2][jj].inStock}></p></div>
+                <div className="col-xs-3"><p className={props.recipesStorage[props.ii][2][jj].inStock}></p></div>
             </div>
         );
     }
     return (
         <div>{rows}</div>
+    )
+}
+
+function Delete(props){
+    if (props.editing[props.row] === false) return null;
+    return(
+        <button onClick = {()=>props.deleteRow(props.jj)}>Delete</button>
     )
 }
 
