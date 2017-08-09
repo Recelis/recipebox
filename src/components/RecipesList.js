@@ -56,15 +56,10 @@ class RecipesList extends Component {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         var localKey = contentObject[ii][2][jj].localKey;
         contentObject[ii][2].splice(jj,1);
-        console.log(localKey);
         localStorage.removeItem("recipeStorage" + localKey);
-        console.log(contentObject);
         this.setState({
             recipesStorage: contentObject
         })
-        
-        console.log("rows" + ii);
-        console.log("subrow" + jj);
     }    
     makeTonight() {
         console.log("please fill this in!");
