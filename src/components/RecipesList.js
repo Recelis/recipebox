@@ -20,6 +20,7 @@ class RecipesList extends Component {
                 }
             }
         }
+        
         if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey:''}]]);
         this.state = {
             recipesStorage: readLocalRecipes,
@@ -78,6 +79,12 @@ class RecipesList extends Component {
     clickedRecipe(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         contentObject[ii][1] = (contentObject[ii][1]) ? false : true; // show ingredients
+        // check that last ingredient had a title otherwise remove
+        if (contentObject[ii][1] === true){
+            for (var jj =0; jj < contentObject[ii][2].length; jj++){
+                if (contentObject[ii][2][jj]['stockName'].length === 0) contentObject[ii][2].splice(jj,1);
+            }
+        }    
         this.setState({
             recipesStorage: contentObject
         })
@@ -179,7 +186,7 @@ class RecipesList extends Component {
 }
 
 function AddRecipe(props) {
-    if (props.editing) return null;
+    // if (props.editing) return null;
     return (
         <div>
             <button onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
