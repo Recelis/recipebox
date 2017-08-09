@@ -43,7 +43,7 @@ class RecipesList extends Component {
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={this.clickedEdit.bind(this, ii)}
                         clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
-                        makeTonight={() => this.makeTonight}
+                        makingToday={() => this.makingToday()}
                         editing={this.state.editing}
                         deleteRow={this.deleteRow}
                     />
@@ -62,7 +62,7 @@ class RecipesList extends Component {
             recipesStorage: contentObject
         })
     }
-    makeTonight() {
+    makingToday() {
         console.log("please fill this in!");
     }
 

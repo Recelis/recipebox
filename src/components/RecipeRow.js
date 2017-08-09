@@ -11,7 +11,9 @@ class RecipeRow extends Component {
                     recipesStorage={this.props.recipesStorage}
                     changeRecipe={this.props.changeRecipe}
                 />
-                <button onClick={() => this.props.makeTonight()}>Make Tonight</button>
+                <MakeButton
+                    makingToday = {()=> this.props.makingToday()}
+                />
                 <Description
                     key={'RecipeDescription' + this.props.ii}
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
@@ -59,6 +61,12 @@ function RecipeTitle(props) {
 function handleEditSubmit(event) {
     event.preventDefault();
     return;
+}
+
+function MakeButton(props){
+    return(
+        <button onClick={() => props.makingToday()}>Making Today</button>
+    )
 }
 
 function Description(props) {
