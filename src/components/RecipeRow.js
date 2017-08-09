@@ -23,6 +23,7 @@ class RecipeRow extends Component {
                     ii={this.props.ii}
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
                     editing = {this.props.editing}
+                    deleteRow = {this.props.deleteRow}
                 />
                 <Edit
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
@@ -83,6 +84,7 @@ function RecipesContent(props) {
                        editing = {props.editing}
                        jj = {jj} 
                        row = {props.ii}
+                       deleteRow = {props.deleteRow}
                     />
                 </div>
                 <div className="col-xs-3">
@@ -107,7 +109,7 @@ function RecipesContent(props) {
 function Delete(props){
     if (props.editing[props.row] === false) return null;
     return(
-        <button onClick = {()=>props.deleteRow(props.jj)}>Delete</button>
+        <button onClick = {props.deleteRow.bind(this,props.row,props.jj)}>Delete</button>
     )
 }
 

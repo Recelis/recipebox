@@ -25,8 +25,8 @@ class RecipesList extends Component {
             recipesStorage: readLocalRecipes,
             editing: Array(readLocalRecipes.length).fill(false)
         }
-        console.log("yeah!"+ this.state.editing);
         this.changeRecipe = this.changeRecipe.bind(this);
+        this.deleteRow = this.deleteRow.bind(this);
     }
     rowsOfRecipes() {
         var rows = [];
@@ -44,12 +44,28 @@ class RecipesList extends Component {
                         clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
                         makeTonight={() => this.makeTonight}
                         editing={this.state.editing}
+                        deleteRow = {this.deleteRow}
                     />
                 </div>
             );
         }
         return rows;
     }
+
+    deleteRow(ii,jj){ // done badly
+        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        var localKey = contentObject[ii][2][jj].localKey;
+        contentObject[ii][2].splice(jj,1);
+        console.log(localKey);
+        localStorage.removeItem("recipeStorage" + localKey);
+        console.log(contentObject);
+        this.setState({
+            recipesStorage: contentObject
+        })
+        
+        console.log("rows" + ii);
+        console.log("subrow" + jj);
+    }    
     makeTonight() {
         console.log("please fill this in!");
     }
