@@ -80,10 +80,11 @@ class RecipesList extends Component {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         contentObject[ii][1] = (contentObject[ii][1]) ? false : true; // show ingredients
         // check that last ingredient had a title otherwise remove
-        if (contentObject[ii][1] === true){
+        if (contentObject[ii][1] === false){
             for (var jj =0; jj < contentObject[ii][2].length; jj++){
                 if (contentObject[ii][2][jj]['stockName'].length === 0) contentObject[ii][2].splice(jj,1);
             }
+            if (contentObject[ii][0].length === 0) contentObject.splice(ii,1);
         }    
         this.setState({
             recipesStorage: contentObject
