@@ -159,17 +159,18 @@ class RecipesList extends Component {
         var pushNewEditing = JSON.parse(JSON.stringify(this.state.editing));
         pushNewEditing.push(true);
         // check that there is a name for prev recipe
-        if (contentObject[contentObject.length - 1][0].length === 0) {
-            alert("Your recipe is not named!");
-            return;
+        if (contentObject.length !== 0){
+            if (contentObject[contentObject.length - 1][0].length === 0) {
+                alert("Your recipe is not named!");
+                return;
+            }
+        } else{
+            contentObject.push(['', true, [{ stockName: '', quantity: '', inStock: 'none', localKey: '' }]]);
+            this.setState({
+                recipesStorage: contentObject,
+                editing: pushNewEditing
+            })
         }
-        contentObject.push(['', true, [{ stockName: '', quantity: '', inStock: 'none', localKey: '' }]]);
-        console.log(contentObject);
-
-        this.setState({
-            recipesStorage: contentObject,
-            editing: pushNewEditing
-        })
     }
 
     render() {
