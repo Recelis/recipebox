@@ -1,86 +1,26 @@
 import React, { Component } from 'react'
 
 class InventoryTable extends Component {
-    constructor(props) {
-        // get all inventoryStorage in local Storage
-        var readLocalInventory = [];
-        for (var ii =0; ii < localStorage.length; ii++){
-            if (localStorage['inventoryStorage'+ii] === null) break; 
-            else if (localStorage['inventoryStorage'+ii] === undefined) localStorage.removeItem('inventoryStorage'+ii);
-            else readLocalInventory.push(JSON.parse(localStorage['inventoryStorage'+ii]));
-        } 
-        if (readLocalInventory.length === 0) readLocalInventory.push({ stockName: '', quantity: '' });
-        super();
-        this.state = {
+    constructor(props){
+        super(props);
+        this.state ={
             opened: false,
             openedValue: '+',
-            editing: false,
-            inventoryStorage: readLocalInventory
         }
-        this.changedContent = this.changedContent.bind(this);
-        console.log(this.state.inventoryStorage);
     }
-
     clickedOpen() {
-        if (this.state.opened) this.setState({
-            opened: false,
-            openedValue: '+'
-        });
+        if (this.state.opened) 
+            this.setState({
+                opened: false,
+                openedValue: '+'
+            });
         else this.setState({
             opened: true,
             openedValue: '-'
         });
     }
-    changedContent(row, location, event) {
-        if (this.state.editing) {
-            var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
-            contentObject[row][location] = event.target.value;
-            this.setState({
-                inventoryStorage: contentObject
-            })
-
-            if (typeof (Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                localStorage.removeItem("inventoryStorage" + row);
-                localStorage.setItem("inventoryStorage" + row, JSON.stringify(contentObject[row]));
-                console.log(localStorage["inventoryStorage" + row]);
-            } else {
-                // Sorry! No Web Storage support..
-                alert("Please use a modern major browser");
-            }
-            
-        }
-    }
-    clickedEdit() {
-        this.setState({
-            editing: this.state.editing ? false : true
-        })
-    }
-
-    addRow() {
-        var contentObject = JSON.parse(JSON.stringify(this.state.inventoryStorage));
-        if (contentObject[contentObject.length - 1].stockName === '') {
-            alert("You need to enter item first!");
-            return;
-        } else if (contentObject[contentObject.length - 1].quantity === '') {
-            alert("You need to enter a quantity for your item!");
-            return;
-        } else if (!contentObject[contentObject.length - 1].quantity.match(/\d+/g)) {
-            alert("please enter a value that contains only numbers.");
-            return;
-        } else if (contentObject[contentObject.length - 1].quantity.match(/\d+/g)[0] !== contentObject[contentObject.length - 1].quantity) {
-            alert("You may have accidentally typed an incorrect value in.");
-            return;
-        } else {
-            contentObject.push({ stockName: '', quantity: '' });
-            this.setState({
-                inventoryStorage: contentObject
-            })
-        }
-    }
-
-    render() {
-        return (
+    render(){
+        return(
             <div>
                 <Title
                     openedValue={this.state.openedValue}
@@ -91,24 +31,24 @@ class InventoryTable extends Component {
                 />
                 <InventoryContent
                     opened={this.state.opened}
-                    inventoryStorage={this.state.inventoryStorage}
-                    editing={this.state.editing}
-                    changedContent={this.changedContent}
+                    inventoryStorage={this.props.inventoryStorage}
+                    editing={this.props.editing}
+                    changedContent={this.props.changedContent}
                 />
                 <Edit
                     opened={this.state.opened}
-                    clickedEdit={() => this.clickedEdit()}
+                    clickedEdit={() => this.props.clickedEdit()}
                 />
                 <Add
                     opened={this.state.opened}
-                    editing={this.state.editing}
-                    addRow={(props) => this.addRow(props)}
+                    editing={this.props.editing}
+                    addRow={() => this.props.addRow()}
                 />
-
             </div>
         )
     }
 }
+
 
 
 function Title(props) {
