@@ -19,6 +19,7 @@ class InventoryTable extends Component {
             openedValue: '-'
         });
     }
+
     render() {
         return (
             <div className="inventory">
@@ -34,6 +35,7 @@ class InventoryTable extends Component {
                     inventoryStorage={this.props.inventoryStorage}
                     editing={this.props.editing}
                     changedContent={this.props.changedContent}
+                    deleteRow = {this.props.deleteRow}
                 />
                 <Edit
                     opened={this.state.opened}
@@ -61,8 +63,8 @@ function Description(props) {
     if (props.opened === false) return null;
     return (
         <div className="row">
-            <div className="col-xs-6"><h2>Stock</h2></div>
-            <div className="col-xs-6"><h2>Quantity (g)</h2></div>
+            <div className="col-xs-6"><h2 className="stock">Stock</h2></div>
+            <div className="col-xs-6"><h2 className="quantity">Quantity (g)</h2></div>
         </div>
     )
 }
@@ -111,8 +113,6 @@ function Add(props) {
         <button onClick={() => { props.addRow() }}>Add Inventory</button>
     )
 }
-
-
 
 
 export default InventoryTable;

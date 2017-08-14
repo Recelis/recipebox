@@ -50,15 +50,19 @@ class RecipeRow extends Component {
 function RecipeTitle(props) {
     if (props.editing[props.ii] && props.recipesStorage[props.ii][1] === true) {
         return (
-            <form onSubmit={handleEditSubmit}>
-                <input type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0, "recipeName")} />
-            </form>
+            <div className="recipeName">
+                <form onSubmit={handleEditSubmit}>
+                    <input className="recipeForm" type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0, "recipeName")} />
+                </form>
+            </div>
         )
     }
     else return (
-        <button onClick={() => props.clickedRecipe(props.ii)}>
-            {props.recipesStorage[props.ii][0]}
-        </button>
+        <div className="recipeName">
+            <button onClick={() => props.clickedRecipe(props.ii)} className="recipeButton">
+                {props.recipesStorage[props.ii][0]}
+            </button>
+        </div>
     )
 }
 
@@ -72,9 +76,9 @@ function Description(props) {
     return (
         <div className="row">
             <div className="col-xs-3"></div>
-            <div className="col-xs-3"><h2>Ingredient</h2></div>
-            <div className="col-xs-3"><h2>Quantity (g)</h2></div>
-            <div className="col-xs-3"><h2>Availability</h2></div>
+            <div className="col-xs-3"><h2 className="ingredient">Ingredient</h2></div>
+            <div className="col-xs-3"><h2 className="quantity">Quantity (g)</h2></div>
+            <div className="col-xs-3"><h2 className="availability">Availability</h2></div>
         </div>
     )
 }
@@ -117,7 +121,7 @@ function RecipesContent(props) {
 function Delete(props) {
     if (props.editing[props.row] === false) return null;
     return (
-        <button onClick={props.deleteRow.bind(this, props.row, props.jj)}>Delete</button>
+        <button className="delete" onClick={props.deleteRow.bind(this, props.row, props.jj)}>X</button>
     )
 }
 

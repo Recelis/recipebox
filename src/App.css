@@ -42,11 +42,70 @@
   text-align:left;
 }
 
+.delete{
+  color:white;
+  font-family: 'Raleway', sans-serif;
+  border:solid red;
+  border-radius:10px;
+  background-color:red;
+  width:30px;
+  height:30px;
+}
+
 /***************************************** Inventory **********************************************/
 .inventory{
   
 }
 
+.stock{
+  color:white;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.quantity{
+  color:white;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+/***************************************** Recipes *******************************************/
+
+.ingredient{
+  color:white;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.availability{
+  color:white;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.recipeName{
+  text-align:center;
+}
+
+.recipeButton{
+  background-color:brown;
+  color:white;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+  border:solid white 3px;
+  border-radius: 10px;
+  margin:10px;
+}
+
+.recipeForm{
+  background-color:white;
+  color:black;
+  font-size:20px;
+  font-family: 'Raleway', sans-serif;
+  border:solid yellow 3px;
+  border-radius: 10px;
+  margin:10px;
+}
 /***************************************** Stock Status *******************************************/
 
 .none{
