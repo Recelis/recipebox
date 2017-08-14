@@ -25,17 +25,23 @@ class RecipeRow extends Component {
                     editing={this.props.editing}
                     deleteRow={this.props.deleteRow}
                 />
-                <Edit
-                    showIngredients={this.props.recipesStorage[this.props.ii][1]}
-                    clickedEdit={() => this.props.clickedEdit()}
-                    ii={this.props.ii}
-                />
-                <Add
-                    editing={this.props.editing}
-                    clickedAddIngred={() => this.props.clickedAddIngred()}
-                    recipesStorage={this.props.recipesStorage}
-                    ii={this.props.ii}
-                />
+                <div classsName="rows">
+                    <div className="col-xs-6">
+                        <Edit
+                            showIngredients={this.props.recipesStorage[this.props.ii][1]}
+                            clickedEdit={() => this.props.clickedEdit()}
+                            ii={this.props.ii}
+                        />
+                    </div>
+                    <div classsName="col-xs-6">
+                        <Add
+                            editing={this.props.editing}
+                            clickedAddIngred={() => this.props.clickedAddIngred()}
+                            recipesStorage={this.props.recipesStorage}
+                            ii={this.props.ii}
+                        />
+                    </div>
+                </div>
             </div>
         )
     }

@@ -40,7 +40,7 @@ class IngredientTable extends Component{
 
 function Title(props){
     return(
-        <button onClick={()=> props.onClick()}> {props.openRecipes}Recipes</button>
+        <button onClick={()=> props.onClick()} className="recipeTitle"> {props.openRecipes}Recipes</button>
     )
 }
 export default IngredientTable;

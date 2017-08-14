@@ -1,6 +1,53 @@
 .App {
   text-align: center;
+  background-color:blueviolet;
+  margin:0;
+  padding:0;
 }
+
+.mainTitle{
+  font-family: 'Raleway', sans-serif;
+  padding-top:50px;
+  color: white;
+  margin-top:0;
+  margin-bottom:30px;
+}
+
+.mainSpace{
+  /* background-color:grey; */
+  text-align:left;
+  margin-left:100px;
+}
+
+.inventoryTitle{
+  background-color:yellow;
+  color:grey;
+  border:solid white;
+  border-radius: 20px;
+  width:100px;
+  height:60px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom:10px;
+}
+
+.recipeTitle{
+  background-color:yellow;
+  color:grey;
+  border:solid white 3px;
+  border-radius: 20px;
+  width:100px;
+  height:60px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom:10px;
+  text-align:left;
+}
+
+/***************************************** Inventory **********************************************/
+.inventory{
+  
+}
+
+/***************************************** Stock Status *******************************************/
 
 .none{
   border:solid red;
@@ -38,5 +85,12 @@
   text-align:center;
 }
 
+/***************************************** CopyRight *******************************************/
 
-
+.copyRight{
+  text-align: center;
+  margin-top:35%; 
+  font-family: 'Raleway', sans-serif;
+  color:darkgrey;
+  margin-bottom:0;
+}

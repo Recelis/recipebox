@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 
 class InventoryTable extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             opened: false,
             openedValue: '+',
         }
     }
     clickedOpen() {
-        if (this.state.opened) 
+        if (this.state.opened)
             this.setState({
                 opened: false,
                 openedValue: '+'
@@ -19,9 +19,9 @@ class InventoryTable extends Component {
             openedValue: '-'
         });
     }
-    render(){
-        return(
-            <div>
+    render() {
+        return (
+            <div className="inventory">
                 <Title
                     openedValue={this.state.openedValue}
                     onClick={() => this.clickedOpen()}
@@ -53,7 +53,7 @@ class InventoryTable extends Component {
 
 function Title(props) {
     return (
-        <button onClick={() => props.onClick()}>{props.openedValue} Inventory</button>
+        <button onClick={() => props.onClick()} className="inventoryTitle">{props.openedValue} Inventory</button>
     )
 }
 
