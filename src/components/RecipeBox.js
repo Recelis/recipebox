@@ -20,7 +20,6 @@ class RecipeBox extends Component {
             inventoryStorage: readLocalInventory
         };
         this.changedContent = this.changedContent.bind(this);
-        console.log(this.state.inventoryStorage);
     }
 
     changedContent(row, location, event) {
@@ -35,7 +34,6 @@ class RecipeBox extends Component {
                 // Code for localStorage/sessionStorage.
                 localStorage.removeItem("inventoryStorage" + row);
                 localStorage.setItem("inventoryStorage" + row, JSON.stringify(contentObject[row]));
-                console.log(localStorage["inventoryStorage" + row]);
             } else {
                 // Sorry! No Web Storage support..
                 alert("Please use a modern major browser");

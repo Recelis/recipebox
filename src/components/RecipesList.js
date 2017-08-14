@@ -31,7 +31,6 @@ class RecipesList extends Component {
     }
     rowsOfRecipes() {
         var rows = [];
-        // console.log(this.state.recipesStorage);
         for (var ii = 0; ii < this.state.recipesStorage.length; ii++) {
             rows.push(
                 <div key={'recipe' + ii}>
@@ -44,7 +43,6 @@ class RecipesList extends Component {
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={this.clickedEdit.bind(this, ii)}
                         clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
-                        makingToday={() => this.makingToday()}
                         editing={this.state.editing}
                         deleteRow={this.deleteRow}
                     />
@@ -63,15 +61,10 @@ class RecipesList extends Component {
             recipesStorage: contentObject
         })
     }
-    makingToday() {
-        console.log("please fill this in!");
-    }
 
     clickedEdit(ii) {
         var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
-        console.log(ii);
         toggleEditing[ii] = toggleEditing[ii] ? false : true;
-        console.log(toggleEditing);
         this.setState({
             editing: toggleEditing
         })
@@ -93,7 +86,6 @@ class RecipesList extends Component {
     }
 
     changeRecipe(row, ingredient, location, event) {
-        console.log(this.state.editing[row]);
         if (this.state.editing[row]) {
             var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
             if (location === 'recipeName') contentObject[row][0] = event.target.value;
@@ -114,15 +106,11 @@ class RecipesList extends Component {
                     localStorage.removeItem("recipeStorage" + contentObject[row][2][ingredient]['localKey']);
                 }
                 var localKey = contentObject[row][2][ingredient]['localKey'];
-                console.log("localKey" + localKey);
                 // build localStorageRowObject
                 var localStorageObject = { recipeName: contentObject[row][0], showIngredients: contentObject[row][1] };
                 Object.assign(localStorageObject, contentObject[row][2][ingredient]);
-                // console.log(localStorageObject);
                 // Code for localStorage/sessionStorage.
-
                 localStorage.setItem("recipeStorage" + localKey, JSON.stringify(localStorageObject));
-                console.log(localStorage["recipeStorage" + localKey]);
             } else {
                 // Sorry! No Web Storage support..
                 alert("Please use a modern major browser");
@@ -133,7 +121,6 @@ class RecipesList extends Component {
     clickedAddIngred(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         var quantity = contentObject[ii][2][contentObject[ii][2].length - 1].quantity;
-        console.log(quantity.match(/\d+/g));
         if (contentObject[ii][2][contentObject[ii][2].length - 1].stockName === "") {
             alert("please type an ingredient in!");
             return;
@@ -148,7 +135,6 @@ class RecipesList extends Component {
             return;
         } else {
             contentObject[ii][2].push({ stockName: '', quantity: '', localKey: '' });
-            console.log(contentObject);
             this.setState({
                 recipesStorage: contentObject
             })

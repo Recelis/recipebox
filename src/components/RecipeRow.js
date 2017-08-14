@@ -11,9 +11,6 @@ class RecipeRow extends Component {
                     recipesStorage={this.props.recipesStorage}
                     changeRecipe={this.props.changeRecipe}
                 />
-                <MakeButton
-                    makingToday={() => this.props.makingToday()}
-                />
                 <Description
                     key={'RecipeDescription' + this.props.ii}
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
@@ -62,12 +59,6 @@ function RecipeTitle(props) {
 function handleEditSubmit(event) {
     event.preventDefault();
     return;
-}
-
-function MakeButton(props) {
-    return (
-        <button onClick={() => props.makingToday()}>Making Today</button>
-    )
 }
 
 function Description(props) {
@@ -141,8 +132,6 @@ function Add(props) {
 }
 
 function calculateInStock(recipesLine, inventoryStorage) {
-    console.log(recipesLine);
-    console.log(inventoryStorage);
     for (var ii = 0; ii < inventoryStorage.length; ii++) {
         if (recipesLine.stockName === inventoryStorage[ii].stockName) {
             if (inventoryStorage[ii].quantity === '0' || inventoryStorage[ii].quantity.length === 0) return "none";
