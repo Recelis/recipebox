@@ -11,4 +11,32 @@
   text-align:center;
 }
 
+.notEnough{
+  border:solid yellow;
+  border-radius:10px;
+  background-color:yellow;
+  width:30px;
+  height:30px;
+  text-align:center;
+}
+
+.enough{
+  border:solid yellowgreen;
+  border-radius:10px;
+  background-color:yellowgreen;
+  width:30px;
+  height:30px;
+  text-align:center;
+}
+
+.moreThanEnough{
+  border:solid #00cc00;
+  border-radius:10px;
+  background-color:#00cc00;
+  width:30px;
+  height:30px;
+  text-align:center;
+}
+
+
 

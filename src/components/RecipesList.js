@@ -11,7 +11,7 @@ class RecipesList extends Component {
             if (localStorage['recipeStorage' + ii] === undefined) localStorage.removeItem('recipeStorage' + ii);
             else {
                 recipeLocalLine = JSON.parse(localStorage['recipeStorage' + ii]);
-                var recipeObject = { stockName: recipeLocalLine.stockName, quantity: recipeLocalLine.quantity, inStock: recipeLocalLine.inStock, localKey: recipeLocalLine.localKey };
+                var recipeObject = { stockName: recipeLocalLine.stockName, quantity: recipeLocalLine.quantity, localKey: recipeLocalLine.localKey };
                 if (nameDirectory[recipeLocalLine.recipeName] === undefined) { // new recipe read in
                     nameDirectory[recipeLocalLine.recipeName] = readLocalRecipes.length;
                     readLocalRecipes.push([recipeLocalLine.recipeName, recipeLocalLine.showIngredients, [recipeObject]]);
@@ -21,7 +21,7 @@ class RecipesList extends Component {
             }
         }
 
-        if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', inStock: 'none', localKey: '' }]]);
+        if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', localKey: '' }]]);
         this.state = {
             recipesStorage: readLocalRecipes,
             editing: Array(readLocalRecipes.length).fill(false)
@@ -39,6 +39,7 @@ class RecipesList extends Component {
                         ii={ii}
                         key={ii}
                         recipesStorage={this.state.recipesStorage}
+                        inventoryStorage = {this.props.inventoryStorage}
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={this.clickedEdit.bind(this, ii)}
@@ -146,7 +147,7 @@ class RecipesList extends Component {
             alert("You may have accidentally typed an incorrect value in.");
             return;
         } else {
-            contentObject[ii][2].push({ stockName: '', quantity: '', inStock: 'none', localKey: '' });
+            contentObject[ii][2].push({ stockName: '', quantity: '', localKey: '' });
             console.log(contentObject);
             this.setState({
                 recipesStorage: contentObject

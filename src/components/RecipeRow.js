@@ -12,7 +12,7 @@ class RecipeRow extends Component {
                     changeRecipe={this.props.changeRecipe}
                 />
                 <MakeButton
-                    makingToday = {()=> this.props.makingToday()}
+                    makingToday={() => this.props.makingToday()}
                 />
                 <Description
                     key={'RecipeDescription' + this.props.ii}
@@ -21,22 +21,23 @@ class RecipeRow extends Component {
                 <RecipesContent
                     key={this.props.ii} // change 
                     recipesStorage={this.props.recipesStorage}
+                    inventoryStorage={this.props.inventoryStorage}
                     changeRecipe={this.props.changeRecipe}
                     ii={this.props.ii}
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
-                    editing = {this.props.editing}
-                    deleteRow = {this.props.deleteRow}
+                    editing={this.props.editing}
+                    deleteRow={this.props.deleteRow}
                 />
                 <Edit
                     showIngredients={this.props.recipesStorage[this.props.ii][1]}
                     clickedEdit={() => this.props.clickedEdit()}
-                    ii = {this.props.ii}
+                    ii={this.props.ii}
                 />
                 <Add
-                    editing = {this.props.editing}
-                    clickedAddIngred = {()=>this.props.clickedAddIngred()}
+                    editing={this.props.editing}
+                    clickedAddIngred={() => this.props.clickedAddIngred()}
                     recipesStorage={this.props.recipesStorage}
-                    ii = {this.props.ii}
+                    ii={this.props.ii}
                 />
             </div>
         )
@@ -47,7 +48,7 @@ function RecipeTitle(props) {
     if (props.editing[props.ii] && props.recipesStorage[props.ii][1] === true) {
         return (
             <form onSubmit={handleEditSubmit}>
-                <input type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0,"recipeName")} />
+                <input type="text" value={props.recipesStorage[props.ii][0]} onChange={props.changeRecipe.bind(this, props.ii, 0, "recipeName")} />
             </form>
         )
     }
@@ -63,8 +64,8 @@ function handleEditSubmit(event) {
     return;
 }
 
-function MakeButton(props){
-    return(
+function MakeButton(props) {
+    return (
         <button onClick={() => props.makingToday()}>Making Today</button>
     )
 }
@@ -84,28 +85,30 @@ function Description(props) {
 function RecipesContent(props) {
     if (props.showIngredients === false) return null;
     var rows = [];
-    for (var jj = 0; jj < props.recipesStorage[props.ii][2].length;jj++){
+    for (var jj = 0; jj < props.recipesStorage[props.ii][2].length; jj++) {
+        // calculate inStock
+        var inStock = calculateInStock(props.recipesStorage[props.ii][2][jj], props.inventoryStorage);
         rows.push(
             <div className="row" key={("ingredients" + jj).toString()}>
                 <div className="col-xs-3">
                     <Delete
-                       editing = {props.editing}
-                       jj = {jj} 
-                       row = {props.ii}
-                       deleteRow = {props.deleteRow}
+                        editing={props.editing}
+                        jj={jj}
+                        row={props.ii}
+                        deleteRow={props.deleteRow}
                     />
                 </div>
                 <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii,jj, "stockName")} />
+                        <input type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii, jj, "stockName")} />
                     </form>
                 </div>
                 <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii,jj, "quantity")} />
+                        <input type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii, jj, "quantity")} />
                     </form>
                 </div>
-                <div className="col-xs-3"><p className={props.recipesStorage[props.ii][2][jj].inStock}></p></div>
+                <div className="col-xs-3"><p className={inStock}></p></div>
             </div>
         );
     }
@@ -114,10 +117,10 @@ function RecipesContent(props) {
     )
 }
 
-function Delete(props){
+function Delete(props) {
     if (props.editing[props.row] === false) return null;
-    return(
-        <button onClick = {props.deleteRow.bind(this,props.row,props.jj)}>Delete</button>
+    return (
+        <button onClick={props.deleteRow.bind(this, props.row, props.jj)}>Delete</button>
     )
 }
 
@@ -130,11 +133,24 @@ function Edit(props) {
     )
 }
 
-function Add(props){
-    if (!props.editing || props.recipesStorage[props.ii][1] === false) return null; 
-    return(
-        <button onClick={()=> props.clickedAddIngred(props.ii)}>Add Ingredient</button>
+function Add(props) {
+    if (!props.editing || props.recipesStorage[props.ii][1] === false) return null;
+    return (
+        <button onClick={() => props.clickedAddIngred(props.ii)}>Add Ingredient</button>
     )
 }
 
+function calculateInStock(recipesLine, inventoryStorage) {
+    console.log(recipesLine);
+    console.log(inventoryStorage);
+    for (var ii = 0; ii < inventoryStorage.length; ii++) {
+        if (recipesLine.stockName === inventoryStorage[ii].stockName) {
+            if (inventoryStorage[ii].quantity === '0' || inventoryStorage[ii].quantity.length === 0) return "none";
+            else if (recipesLine.quantity > inventoryStorage[ii].quantity) return "notEnough";
+            else if (recipesLine.quantity === inventoryStorage[ii].quantity) return "enough";
+            else return "moreThanEnough";
+        }
+    }
+    return "none";
+}
 export default RecipeRow;
