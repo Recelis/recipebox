@@ -39,7 +39,7 @@ class RecipesList extends Component {
                         ii={ii}
                         key={ii}
                         recipesStorage={this.state.recipesStorage}
-                        inventoryStorage = {this.props.inventoryStorage}
+                        inventoryStorage={this.props.inventoryStorage}
                         changeRecipe={this.changeRecipe}
                         clickedRecipe={this.clickedRecipe.bind(this, ii)}
                         clickedEdit={this.clickedEdit.bind(this, ii)}
@@ -160,18 +160,17 @@ class RecipesList extends Component {
         var pushNewEditing = JSON.parse(JSON.stringify(this.state.editing));
         pushNewEditing.push(true);
         // check that there is a name for prev recipe
-        if (contentObject.length !== 0){
+        if (contentObject.length !== 0) {
             if (contentObject[contentObject.length - 1][0].length === 0) {
                 alert("Your recipe is not named!");
                 return;
             }
-        } else{
-            contentObject.push(['', true, [{ stockName: '', quantity: '', inStock: 'none', localKey: '' }]]);
-            this.setState({
-                recipesStorage: contentObject,
-                editing: pushNewEditing
-            })
         }
+        contentObject.push(['', true, [{ stockName: '', quantity: '', localKey: '' }]]);
+        this.setState({
+            recipesStorage: contentObject,
+            editing: pushNewEditing
+        })
     }
 
     render() {
@@ -189,7 +188,9 @@ class RecipesList extends Component {
 }
 
 function AddRecipe(props) {
-    // if (props.editing) return null;
+    for (var ii =0; ii < props.editing.length; ii++) {
+        if (props.editing[ii] === true) return null;
+    }
     return (
         <div>
             <button onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
