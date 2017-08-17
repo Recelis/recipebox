@@ -61,6 +61,7 @@ class RecipesList extends Component {
         contentObject[ii][2].splice(jj, 1);
         deleteEditing.splice(ii,1);
         localStorage.removeItem("recipeStorage" + localKey);
+        if (contentObject[ii][2].length === 0) contentObject.splice(ii,1); 
         this.setState({
             recipesStorage: contentObject,
             editing:deleteEditing
@@ -68,7 +69,10 @@ class RecipesList extends Component {
     }
 
     clickedEdit(ii) {
-        
+        var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        if (contentObject[ii][0].length === 0) {
+            return alert('please enter a name')
+        }
         var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
         var toggleText = JSON.parse(JSON.stringify(this.state.editText));
         toggleEditing[ii] = toggleEditing[ii] ? false : true;

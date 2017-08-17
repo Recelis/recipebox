@@ -34,7 +34,7 @@ class RecipeRow extends Component {
                             editText = {this.props.editText}
                         />
                     </div>
-                    <div classsName="col-xs-6">
+                    <div className="col-xs-6">
                         <Add
                             editing={this.props.editing}
                             clickedAddIngred={() => this.props.clickedAddIngred()}
