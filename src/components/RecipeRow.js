@@ -102,12 +102,12 @@ function RecipesContent(props) {
                 </div>
                 <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii, jj, "stockName")} />
+                        <input className="contentForm" type="text" value={props.recipesStorage[props.ii][2][jj].stockName} onChange={props.changeRecipe.bind(this, props.ii, jj, "stockName")} />
                     </form>
                 </div>
                 <div className="col-xs-3">
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii, jj, "quantity")} />
+                        <input className="contentForm" type="text" value={props.recipesStorage[props.ii][2][jj].quantity} onChange={props.changeRecipe.bind(this, props.ii, jj, "quantity")} />
                     </form>
                 </div>
                 <div className="col-xs-3"><p className={inStock}></p></div>

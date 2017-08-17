@@ -78,12 +78,12 @@ function InventoryContent(props) {
             <div className="row" key={ii.toString()}>
                 <div className="col-xs-6" key={"stockName:" + props.inventoryStorage}>
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.inventoryStorage[ii].stockName} onChange={props.changedContent.bind(this, ii, "stockName")} />
+                        <input className="contentForm" type="text" value={props.inventoryStorage[ii].stockName} onChange={props.changedContent.bind(this, ii, "stockName")} />
                     </form>
                 </div>
                 <div className="col-xs-6" key={"quantity:" + props.inventoryStorage}>
                     <form onSubmit={handleEditSubmit}>
-                        <input type="text" value={props.inventoryStorage[ii].quantity} onChange={props.changedContent.bind(this, ii, "quantity")} />
+                        <input  className="contentForm" type="text" value={props.inventoryStorage[ii].quantity} onChange={props.changedContent.bind(this, ii, "quantity")} />
                     </form>
                 </div>
             </div>
