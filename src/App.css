@@ -52,12 +52,19 @@
   height:30px;
 }
 
-
+/***************************************** General ************************************************/
 .contentForm{
   background-color:transparent;
   color:white;
   border:none;
   font-family: 'Raleway', sans-serif;
+}
+
+.edit{
+  background-color:orangered;
+  border:solid orangered 3px;
+  border-radius: 3px;
+  color:lightgrey;
 }
 /***************************************** Inventory **********************************************/
 .inventory{
@@ -120,6 +127,13 @@
 
 .editContent{
   margin-bottom:30px;
+}
+
+.addRecipe{
+  background-color:#0068FF;
+  border:solid #0068FF 3px;
+  border-radius: 3px;
+  color:lightgrey;
 }
 /***************************************** Stock Status *******************************************/
 

@@ -130,7 +130,7 @@ function Edit(props) {
     if (props.showIngredients === false) return null;
     return (
         <div>
-            <button onClick={() => props.clickedEdit(props.ii)}>{props.editText[props.ii]}</button>
+            <button className = "edit" onClick={() => props.clickedEdit(props.ii)}>{props.editText[props.ii]}</button>
         </div>
     )
 }
@@ -138,7 +138,7 @@ function Edit(props) {
 function Add(props) {
     if (!props.editing[props.ii] || props.recipesStorage[props.ii][1] === false) return (<div></div>);
     return (
-        <button onClick={() => props.clickedAddIngred(props.ii)}>Add Ingredient</button>
+        <button className="edit" onClick={() => props.clickedAddIngred(props.ii)}>Add Ingredient</button>
     )
 }
 

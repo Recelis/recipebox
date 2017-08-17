@@ -56,19 +56,21 @@ class RecipesList extends Component {
 
     deleteRow(ii, jj) { // done badly
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
+        var deleteEditing = JSON.parse(JSON.stringify(this.state.editing));
         var localKey = contentObject[ii][2][jj].localKey;
         contentObject[ii][2].splice(jj, 1);
+        deleteEditing.splice(ii,1);
         localStorage.removeItem("recipeStorage" + localKey);
         this.setState({
-            recipesStorage: contentObject
+            recipesStorage: contentObject,
+            editing:deleteEditing
         })
     }
 
     clickedEdit(ii) {
+        
         var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
         var toggleText = JSON.parse(JSON.stringify(this.state.editText));
-        console.log(this.state.editText);
-        console.log(toggleText);
         toggleEditing[ii] = toggleEditing[ii] ? false : true;
         toggleText[ii] = toggleEditing[ii]?'Close':'Edit';
         this.setState({
@@ -151,7 +153,9 @@ class RecipesList extends Component {
     clickedAddRecipe() {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         var pushNewEditing = JSON.parse(JSON.stringify(this.state.editing));
+        var addEditText = JSON.parse(JSON.stringify(this.state.editText));
         pushNewEditing.push(true);
+        addEditText.push('Close');
         // check that there is a name for prev recipe
         if (contentObject.length !== 0) {
             if (contentObject[contentObject.length - 1][0].length === 0) {
@@ -162,7 +166,8 @@ class RecipesList extends Component {
         contentObject.push(['', true, [{ stockName: '', quantity: '', localKey: '' }]]);
         this.setState({
             recipesStorage: contentObject,
-            editing: pushNewEditing
+            editing: pushNewEditing,
+            editText:addEditText
         })
     }
 
@@ -186,7 +191,7 @@ function AddRecipe(props) {
     }
     return (
         <div>
-            <button onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
+            <button className = "addRecipe" onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
         </div>
     )
 }

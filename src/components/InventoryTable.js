@@ -106,14 +106,14 @@ function handleEditSubmit(event) {
 function Edit(props) {
     if (props.opened === false) return null;
     return (
-        <button onClick={() => props.clickedEdit()}>{props.editText}</button>
+        <button className = "edit" onClick={() => props.clickedEdit()}>{props.editText}</button>
     )
 }
 
 function Add(props) {
     if (props.opened === false || props.editing === false) return null;
     return (
-        <button onClick={() => { props.addRow() }}>Add Inventory</button>
+        <button className = "edit" onClick={() => { props.addRow() }}>Add Inventory</button>
     )
 }
 
