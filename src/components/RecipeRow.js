@@ -145,9 +145,11 @@ function Add(props) {
 function calculateInStock(recipesLine, inventoryStorage) {
     for (var ii = 0; ii < inventoryStorage.length; ii++) {
         if (recipesLine.stockName === inventoryStorage[ii].stockName) {
-            if (inventoryStorage[ii].quantity === '0' || inventoryStorage[ii].quantity.length === 0) return "none";
-            else if (recipesLine.quantity > inventoryStorage[ii].quantity) return "notEnough";
-            else if (recipesLine.quantity === inventoryStorage[ii].quantity) return "enough";
+            var inventoryNum = parseInt(inventoryStorage[ii].quantity,10);
+            var recipeNum = parseInt(recipesLine.quantity,10);
+            if (inventoryNum === 0 || isNaN(inventoryNum)) return "none";
+            else if (recipeNum > inventoryNum) return "notEnough";
+            else if (recipeNum === inventoryNum) return "enough";
             else return "moreThanEnough";
         }
     }

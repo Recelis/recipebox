@@ -79,7 +79,7 @@ class RecipeBox extends Component {
     render() {
         return (
             <div className="mainSpace">
-                <h1 className="mainTitle"><u>The RecipeBox 9000+</u></h1>
+                <h1 className="mainTitle"><b>The RecipeBox 9000+</b></h1>
                 <InventoryTable
                     openValue = {this.state.openedValue}
                     clickedOpen = {()=>this.clickedOpen()}

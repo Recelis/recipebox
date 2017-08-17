@@ -70,10 +70,10 @@ class RecipesList extends Component {
 
     clickedEdit(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
-        if (contentObject[ii][0].length === 0) {
+        var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
+        if (contentObject[ii][0].length === 0 && toggleEditing[ii] === true) {
             return alert('please enter a recipe name')
         }
-        var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
         var toggleText = JSON.parse(JSON.stringify(this.state.editText));
         toggleEditing[ii] = toggleEditing[ii] ? false : true;
         toggleText[ii] = toggleEditing[ii]?'Close':'Edit';
