@@ -22,7 +22,8 @@ class RecipeBox extends Component {
 
         this.state = {
             editing: false,
-            inventoryStorage: readLocalInventory
+            inventoryStorage: readLocalInventory,
+            editText:'Edit'
         };
         this.changedContent = this.changedContent.bind(this);
     }
@@ -48,7 +49,8 @@ class RecipeBox extends Component {
     }
     clickedEdit() {
         this.setState({
-            editing: this.state.editing ? false : true
+            editing: this.state.editing ? false : true,
+            editText: this.state.editing ? 'Edit':'Close' 
         })
     }
 
@@ -86,6 +88,7 @@ class RecipeBox extends Component {
                     editing={this.state.editing}
                     changedContent={this.changedContent}
                     clickedEdit={() => this.clickedEdit()}
+                    editText={this.state.editText}
                     addRow={() => this.addRow()}
                 />
                 <IngredientTable

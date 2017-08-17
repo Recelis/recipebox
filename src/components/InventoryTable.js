@@ -40,6 +40,7 @@ class InventoryTable extends Component {
                 <Edit
                     opened={this.state.opened}
                     clickedEdit={() => this.props.clickedEdit()}
+                    editText={this.props.editText}
                 />
                 <Add
                     opened={this.state.opened}
@@ -103,7 +104,7 @@ function handleEditSubmit(event) {
 function Edit(props) {
     if (props.opened === false) return null;
     return (
-        <button onClick={() => props.clickedEdit()}>Edit</button>
+        <button onClick={() => props.clickedEdit()}>{props.editText}</button>
     )
 }
 
