@@ -11,9 +11,14 @@ class RecipeBox extends Component {
         for (var ii = 0; ii < localStorage.length; ii++) {
             if (localStorage['inventoryStorage' + ii] === null) break;
             else if (localStorage['inventoryStorage' + ii] === undefined) localStorage.removeItem('inventoryStorage' + ii);
-            else readLocalInventory.push(JSON.parse(localStorage['inventoryStorage' + ii]));
+            else {
+                var inventoryLine = JSON.parse(localStorage['inventoryStorage' + ii]);
+                if (inventoryLine.stockName.quantity !== 0 && inventoryLine.quantity.length !== 0){
+                    readLocalInventory.push(inventoryLine);
+                }
+            }
         }
-        if (readLocalInventory.length === 0) readLocalInventory.push({ stockName: '', quantity: '' });
+        if (readLocalInventory.length === 0) readLocalInventory.push({stockName:"",quantity:""});
 
         this.state = {
             editing: false,

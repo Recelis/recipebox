@@ -24,7 +24,8 @@ class RecipesList extends Component {
         if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', localKey: '' }]]);
         this.state = {
             recipesStorage: readLocalRecipes,
-            editing: Array(readLocalRecipes.length).fill(false)
+            editing: Array(readLocalRecipes.length).fill(false),
+            editText:'Edit'
         }
         this.changeRecipe = this.changeRecipe.bind(this);
         this.deleteRow = this.deleteRow.bind(this);
@@ -44,6 +45,7 @@ class RecipesList extends Component {
                         clickedEdit={this.clickedEdit.bind(this, ii)}
                         clickedAddIngred={this.clickedAddIngred.bind(this, ii)}
                         editing={this.state.editing}
+                        editText = {this.state.editText}
                         deleteRow={this.deleteRow}
                     />
                 </div>
@@ -66,7 +68,8 @@ class RecipesList extends Component {
         var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
         toggleEditing[ii] = toggleEditing[ii] ? false : true;
         this.setState({
-            editing: toggleEditing
+            editing: toggleEditing,
+            editText:(toggleEditing[ii])?'Close':'Edit',
         })
     }
 
