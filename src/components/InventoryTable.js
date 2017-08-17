@@ -37,16 +37,18 @@ class InventoryTable extends Component {
                     changedContent={this.props.changedContent}
                     deleteRow = {this.props.deleteRow}
                 />
-                <Edit
-                    opened={this.state.opened}
-                    clickedEdit={() => this.props.clickedEdit()}
-                    editText={this.props.editText}
-                />
-                <Add
-                    opened={this.state.opened}
-                    editing={this.props.editing}
-                    addRow={() => this.props.addRow()}
-                />
+                <div className="editInventory">
+                    <Edit
+                        opened={this.state.opened}
+                        clickedEdit={() => this.props.clickedEdit()}
+                        editText={this.props.editText}
+                    />
+                    <Add
+                        opened={this.state.opened}
+                        editing={this.props.editing}
+                        addRow={() => this.props.addRow()}
+                    />
+                </div>
             </div>
         )
     }

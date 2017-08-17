@@ -25,7 +25,7 @@ class RecipeRow extends Component {
                     editing={this.props.editing}
                     deleteRow={this.props.deleteRow}
                 />
-                <div className="rows">
+                <div className="rows editContent">
                     <div className="col-xs-6">
                         <Edit
                             showIngredients={this.props.recipesStorage[this.props.ii][1]}
@@ -77,7 +77,7 @@ function Description(props) {
     return (
         <div className="row">
             <div className="col-xs-3"></div>
-            <div className="col-xs-3"><h2 className="ingredient">Ingredient</h2></div>
+            <div className="col-xs-3"><h2 className="ingredient">Ingredients</h2></div>
             <div className="col-xs-3"><h2 className="quantity">Quantity (g)</h2></div>
             <div className="col-xs-3"><h2 className="availability">Availability</h2></div>
         </div>
@@ -130,13 +130,13 @@ function Edit(props) {
     if (props.showIngredients === false) return null;
     return (
         <div>
-            <button onClick={() => props.clickedEdit(props.ii)}>{props.editText}</button>
+            <button onClick={() => props.clickedEdit(props.ii)}>{props.editText[props.ii]}</button>
         </div>
     )
 }
 
 function Add(props) {
-    if (!props.editing[props.ii] || props.recipesStorage[props.ii][1] === false) return null;
+    if (!props.editing[props.ii] || props.recipesStorage[props.ii][1] === false) return (<div></div>);
     return (
         <button onClick={() => props.clickedAddIngred(props.ii)}>Add Ingredient</button>
     )

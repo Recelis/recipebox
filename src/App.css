@@ -39,7 +39,7 @@
   height:60px;
   font-family: 'Raleway', sans-serif;
   margin-bottom:10px;
-  text-align:left;
+  text-align:center;
 }
 
 .delete{
@@ -61,7 +61,7 @@
 }
 /***************************************** Inventory **********************************************/
 .inventory{
-  
+  margin:10px 0px 10px 0px;
 }
 
 .stock{
@@ -74,6 +74,10 @@
   color:white;
   font-size:20px;
   font-family: 'Raleway', sans-serif;
+}
+
+.editInventory{
+  margin-top:30px;
 }
 
 /***************************************** Recipes *******************************************/
@@ -95,11 +99,11 @@
 }
 
 .recipeButton{
-  background-color:brown;
+  background-color:#FF0004;
   color:white;
   font-size:20px;
   font-family: 'Raleway', sans-serif;
-  border:solid white 3px;
+  border:solid #FF0004 3px;
   border-radius: 10px;
   margin:10px;
 }
@@ -112,6 +116,10 @@
   border:solid yellow 3px;
   border-radius: 10px;
   margin:10px;
+}
+
+.editContent{
+  margin-bottom:30px;
 }
 /***************************************** Stock Status *******************************************/
 
