@@ -194,7 +194,7 @@ function AddRecipe(props) {
         if (props.editing[ii] === true) return null;
     }
     return (
-        <div>
+        <div className="formatAddRecipe">
             <button className = "addRecipe" onClick={() => props.clickedAddRecipe()}>Add Recipe</button>
         </div>
     )

@@ -134,6 +134,13 @@
   border:solid #0068FF 3px;
   border-radius: 3px;
   color:lightgrey;
+  width:100px;
+  height:60px;
+  text-align:center;
+}
+
+.formatAddRecipe{
+  text-align:center;
 }
 /***************************************** Stock Status *******************************************/
 
@@ -174,7 +181,13 @@
 }
 
 /***************************************** CopyRight *******************************************/
-
+.inStockDescription{
+  text-align: center;
+  margin-top:30%; 
+  font-family: 'Raleway', sans-serif;
+  color:darkgrey;
+  margin-bottom:50px;
+}
 .copyRight{
   text-align: center;
   margin-top:35%; 
