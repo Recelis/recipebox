@@ -71,7 +71,7 @@ class RecipesList extends Component {
     clickedEdit(ii) {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         if (contentObject[ii][0].length === 0) {
-            return alert('please enter a name')
+            return alert('please enter a recipe name')
         }
         var toggleEditing = JSON.parse(JSON.stringify(this.state.editing));
         var toggleText = JSON.parse(JSON.stringify(this.state.editText));
@@ -135,7 +135,7 @@ class RecipesList extends Component {
         var contentObject = JSON.parse(JSON.stringify(this.state.recipesStorage));
         var quantity = contentObject[ii][2][contentObject[ii][2].length - 1].quantity;
         if (contentObject[ii][2][contentObject[ii][2].length - 1].stockName === "") {
-            alert("please type an ingredient in!");
+            alert("please enter an ingredient in first");
             return;
         } else if (contentObject[ii][2][contentObject[ii][2].length - 1].quantity === "") {
             alert("You need to enter a quantity for your item!");
