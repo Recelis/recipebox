@@ -21,7 +21,7 @@ class RecipesList extends Component {
             }
         }
 
-        if (readLocalRecipes.length === 0) readLocalRecipes.push(['', false, [{ stockName: '', quantity: '', localKey: '' }]]);
+        if (readLocalRecipes.length === 0) readLocalRecipes.push(['', true, [{ stockName: '', quantity: '', localKey: '' }]]);
         this.state = {
             recipesStorage: readLocalRecipes,
             editing: Array(readLocalRecipes.length).fill(false),
