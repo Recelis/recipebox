@@ -15,7 +15,9 @@ class App extends Component {
             <div className="col-xs-3"><p className="moreThanEnough"></p><p>More than Enough</p></div>
           </div>
         </div>
-        <p className="copyRight">Created By Jacky Lui &#169; 2017</p>
+        <p className="copyRight">Created By Jacky Lui &#169; 2017 
+        <a className="github-share-button" href = "https://recelis.github.io/recipebox/"><i className="fa fa-github col-xs-6" id = "github"></i> </a>
+        </p>
       </div>
     );
   }
