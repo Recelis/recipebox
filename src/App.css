@@ -195,3 +195,11 @@
   color:darkgrey;
   margin-bottom:0;
 }
+
+.github{
+  width:50px;
+  height:50px;
+  border:solid 0px transparent;
+  background-color:transparent;
+}
+
